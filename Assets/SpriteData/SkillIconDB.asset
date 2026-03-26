@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19d629d093044441b8e794808fa94ac, type: 3}
+  m_Name: SkillIconDB
+  m_EditorClassIdentifier: Assembly-CSharp::SkillIconDB
+  entries:
+  - skillId: 1
+    icon: {fileID: -7275146623993895165, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 2
+    icon: {fileID: 9045854858345770737, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 3
+    icon: {fileID: 7967094703251504408, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 4
+    icon: {fileID: -1788011660995395440, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 9
+    icon: {fileID: -635082562774001587, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 18
+    icon: {fileID: -2570562113466220483, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 10
+    icon: {fileID: -6494017530191726570, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}

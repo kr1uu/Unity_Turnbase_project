@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad9d20963f77894ba59ad2a006c1ef5, type: 3}
+  m_Name: CharacterSpriteDB
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSpriteDatabase
+  entries:
+  - characterId: 1
+    sprite: {fileID: 8886490851947454144, guid: 98110248f6c24c64baec12dbd5e37dde, type: 3}
+    animator: {fileID: 0}
+  - characterId: 2
+    sprite: {fileID: 21300000, guid: ece35ce204456f04fb491b222bb3b913, type: 3}
+    animator: {fileID: 0}
+  - characterId: 3
+    sprite: {fileID: 21300000, guid: eacdcaea7ab75514f93e5537255c6264, type: 3}
+    animator: {fileID: 0}
