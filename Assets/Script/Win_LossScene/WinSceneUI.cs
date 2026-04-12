@@ -16,7 +16,15 @@ public class WinSceneUI : MonoBehaviour
                 BattleEncounterData.Instance.LastEncounterID
             );
 
-
+            var saveUI = FindFirstObjectByType<SaveLoadUI>();
+            if (saveUI != null)
+            {
+                saveUI.SaveGame();
+            }
+            else
+            {
+                Debug.LogError("? Không tìm th?y SaveLoadUI");
+            }
         }
 
         SceneManager.LoadScene("StoryScene");

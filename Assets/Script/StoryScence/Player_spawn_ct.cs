@@ -30,9 +30,21 @@ public class PlayerSpawnHandler : MonoBehaviour
         rb.simulated = false;
 
         Vector3 spawnPos;
+        if (GameStateManager.Instance != null &&
+            GameStateManager.Instance.isLoadingGame)
+        {
+            GameData data = SaveSystem.Load();
 
+            spawnPos = new Vector3(
+                data.player.posX,
+                data.player.posY,
+                data.player.posZ
+            );
+
+            Debug.Log("?? Spawn from SAVE DATA");
+        }
         // Back from Battle Priority
-        if (PlayerPosition.Instance != null &&
+        else if (PlayerPosition.Instance != null &&
             PlayerPosition.Instance.returnPosition != Vector3.zero)
         {
             spawnPos = PlayerPosition.Instance.returnPosition;
@@ -53,5 +65,9 @@ public class PlayerSpawnHandler : MonoBehaviour
         pm.canMove = true;
 
         Debug.Log("Spawn FINAL (scene ready) at: " + spawnPos);
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.isLoadingGame = false;
+        }
     }
 }

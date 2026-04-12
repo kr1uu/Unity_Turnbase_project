@@ -7,7 +7,14 @@ public class EncounterStateManager : MonoBehaviour
 
     private Dictionary<string, HashSet<string>> defeatedByChunk
         = new Dictionary<string, HashSet<string>>();
-
+    public Dictionary<string, HashSet<string>> GetAll()
+    {
+        return defeatedByChunk;
+    }
+    public void ResetAll()
+    {
+        defeatedByChunk.Clear();
+    }
     void Awake()
     {
         if (Instance == null)
