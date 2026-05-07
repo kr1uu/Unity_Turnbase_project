@@ -1,55 +1,157 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static CharacterStats;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [System.Serializable]
 public class CharacterStats
 {
+    // =====================================================
+    // EQUIPMENT IDs
+    // =====================================================
+
+    public int weaponID = -1;
+    public int armorID = -1;
+    public int accessoryID = -1;
+
+    // =====================================================
+    // BASE STATS
+    // =====================================================
+
     public int id;
     public int faction_id;
+
     public string name;
+
     public int maxHP;
     public int currentHP;
+
     public int attack;
     public int defense;
     public int speed;
-    public bool isDefending = false;
-    public float defenseMultiplier = 0.7f;
+
     public int ai_profile_id;
 
-    public CharacterStats(int id, int faction_id, string name, int hp, int atk, int def, int spd, int ai_profile_id)
-    {
+    // =====================================================
+    // DEFEND
+    // =====================================================
 
+    public bool isDefending = false;
+
+    public float defenseMultiplier = 0.7f;
+
+    // =====================================================
+    // CONSTRUCTOR
+    // =====================================================
+
+    public CharacterStats(
+        int id,
+        int faction_id,
+        string name,
+        int hp,
+        int atk,
+        int def,
+        int spd,
+        int ai_profile_id
+    )
+    {
         this.id = id;
         this.faction_id = faction_id;
+
         this.name = name;
+
         maxHP = hp;
         currentHP = hp;
+
         attack = atk;
         defense = def;
         speed = spd;
-        this.ai_profile_id = ai_profile_id;
 
+        this.ai_profile_id = ai_profile_id;
     }
+
+    // =====================================================
+    // DAMAGE
+    // =====================================================
+
     public void TakeDamage(int damage)
     {
         if (isDefending)
         {
-            damage = Mathf.RoundToInt(damage * defenseMultiplier);
+            damage =
+                Mathf.RoundToInt(
+                    damage * defenseMultiplier
+                );
         }
 
         currentHP -= damage;
-        if (currentHP < 0) currentHP = 0;
+
+        if (currentHP < 0)
+            currentHP = 0;
     }
+
+    // =====================================================
+    // HEAL
+    // =====================================================
+
     public void Heal(int amount)
     {
         currentHP += amount;
-        if (currentHP > maxHP) currentHP = maxHP;
+
+        if (currentHP > GetMaxHP())
+        {
+            currentHP = GetMaxHP();
+        }
     }
-    // DOT dame
+
+    // =====================================================
+    // DOT SYSTEM
+    // =====================================================
+
+    [System.Serializable]
+    public class DOTInstance
+    {
+        public int damagePerTurn;
+        public int remainingTurns;
+
+        public CharacterStats source;
+
+        public DOTInstance(
+            int damage,
+            int turns,
+            CharacterStats source
+        )
+        {
+            damagePerTurn = damage;
+            remainingTurns = turns;
+
+            this.source = source;
+        }
+    }
+
+    [NonSerialized]
+    public List<DOTInstance> dots =
+        new List<DOTInstance>();
+
+    public void AddDOT(
+        int damagePerTurn,
+        int turns,
+        CharacterStats source
+    )
+    {
+        dots.Add(
+            new DOTInstance(
+                damagePerTurn,
+                turns,
+                source
+            )
+        );
+
+        Debug.Log(
+            $"[DOT] AddDOT on {name} | dmg={damagePerTurn} | turns={turns}"
+        );
+    }
+
     public void ProcessDOT(BattleUnit owner)
     {
         for (int i = dots.Count - 1; i >= 0; i--)
@@ -58,16 +160,22 @@ public class CharacterStats
 
             int before = currentHP;
 
-            owner.TakeDamage(dot.damagePerTurn, DamagePopup.PopupType.DOT);
+            owner.TakeDamage(
+                dot.damagePerTurn,
+                DamagePopup.PopupType.DOT
+            );
 
-            int actualDamage = before - currentHP;
+            int actualDamage =
+                before - currentHP;
 
             if (actualDamage > 0)
             {
-                Debug.Log($"[DOT] {name} take {actualDamage} DOT damage");
+                Debug.Log(
+                    $"[DOT] {name} take {actualDamage} DOT damage"
+                );
 
                 BattleManager.Instance?.ui?.ShowMessage(
-                    $"{name} take {actualDamage} dame"
+                    $"{name} take {actualDamage} damage"
                 );
             }
 
@@ -75,48 +183,97 @@ public class CharacterStats
 
             if (dot.remainingTurns <= 0)
             {
-                Debug.Log($"[DOT] DOT on {name} end");
+                Debug.Log(
+                    $"[DOT] DOT on {name} ended"
+                );
+
                 dots.RemoveAt(i);
             }
         }
     }
 
-    [System.Serializable]
-    public class DOTInstance
-    {
-        public int damagePerTurn;
-        public int remainingTurns;
-        public CharacterStats source;
+    // =====================================================
+    // FINAL STATS
+    // =====================================================
 
-        public DOTInstance(int damage, int turns, CharacterStats source)
+    public int GetAttack()
+    {
+        int total = attack;
+
+        if (weaponID != -1)
         {
-            damagePerTurn = damage;
-            remainingTurns = turns;
-            this.source = source;
+            ItemEntity weapon =
+                ItemDatabase.Instance.GetItem(weaponID);
+
+            if (weapon != null)
+                total += weapon.bonusATK;
         }
+
+        if (accessoryID != -1)
+        {
+            ItemEntity accessory =
+                ItemDatabase.Instance.GetItem(accessoryID);
+
+            if (accessory != null)
+                total += accessory.bonusATK;
+        }
+
+        return total;
     }
-
-
-    [NonSerialized] 
-    public List<DOTInstance> dots = new List<DOTInstance>();
-
-    public void AddDOT(int damagePerTurn, int turns, CharacterStats source)
+    public int GetDefense()
     {
-        dots.Add(new DOTInstance(damagePerTurn, turns, source));
-        Debug.Log(
-        $"[DOT] AddDOT on {name} | dmg={damagePerTurn} | turns={turns}"
-);
+        int total = defense;
+
+        if (armorID != -1)
+        {
+            ItemEntity armor =
+                ItemDatabase.Instance.GetItem(armorID);
+
+            if (armor != null)
+                total += armor.bonusDEF;
+        }
+
+        if (accessoryID != -1)
+        {
+            ItemEntity accessory =
+                ItemDatabase.Instance.GetItem(accessoryID);
+
+            if (accessory != null)
+                total += accessory.bonusDEF;
+        }
+
+        return total;
     }
 
-    //-----------------------------------------------------------
+    public int GetMaxHP()
+    {
+        int total = maxHP;
+
+        if (accessoryID != -1)
+        {
+            ItemEntity item =
+                ItemDatabase.Instance.GetItem(accessoryID);
+
+            if (item != null)
+            {
+                total += item.bonusHP;
+            }
+        }
+
+        return total;
+    }
+
+    // =====================================================
+    // UTILITY
+    // =====================================================
 
     public float HPPercent()
     {
-        return (float)currentHP / maxHP;
+        return (float)currentHP / GetMaxHP();
     }
+
     public bool IsDead()
     {
         return currentHP <= 0;
     }
 }
-

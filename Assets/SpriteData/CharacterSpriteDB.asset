@@ -15,10 +15,17 @@ MonoBehaviour:
   entries:
   - characterId: 1
     sprite: {fileID: 8886490851947454144, guid: 98110248f6c24c64baec12dbd5e37dde, type: 3}
+    splashArt: {fileID: 938727361536153498, guid: da9c917ca7301e44c9438a02cddfa1b9, type: 3}
     animator: {fileID: 0}
   - characterId: 2
     sprite: {fileID: 21300000, guid: ece35ce204456f04fb491b222bb3b913, type: 3}
+    splashArt: {fileID: -9126717571877995675, guid: f2b1843a4a0e80240be2fde9be7ca11e, type: 3}
     animator: {fileID: 0}
   - characterId: 3
     sprite: {fileID: 21300000, guid: eacdcaea7ab75514f93e5537255c6264, type: 3}
+    splashArt: {fileID: 1789651899514575143, guid: 369be2c0de1fd56439abf204b3beb479, type: 3}
+    animator: {fileID: 0}
+  - characterId: 4
+    sprite: {fileID: 21300000, guid: eacdcaea7ab75514f93e5537255c6264, type: 3}
+    splashArt: {fileID: -6362522524364505993, guid: aec177d4e9257a44a8be58547dd6afe3, type: 3}
     animator: {fileID: 0}

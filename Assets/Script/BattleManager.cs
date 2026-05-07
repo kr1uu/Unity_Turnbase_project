@@ -70,14 +70,81 @@ public class BattleManager : MonoBehaviour
     // ----------------------------------------------------------
     void LoadCharactersFromDB()
     {
+        //string dbPath = System.IO.Path.Combine(Application.streamingAssetsPath, "Datagame.db");
+        //db = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite);
+        //Debug.Log("Đang mở DB tại: " + dbPath);
+
+        //var partyIDs = PartyManager.Instance.SelectedPlayerIDs;
+
+        //if (partyIDs == null || partyIDs.Count == 0)
+        //{
+        //    Debug.LogWarning("Party rỗng → fallback lấy 3 player mặc định");
+
+        //    var fallback = db.Table<CharacterData>()
+        //        .Where(c => c.faction_id == 1)
+        //        .Take(3)
+        //        .ToList();
+
+        //    foreach (var p in fallback)
+        //    {
+        //        playerTeam.Add(new CharacterStats(
+        //            p.id, p.faction_id, p.name,
+        //            p.hp, p.atk, p.def, p.spd,
+        //            p.ai_profile_id));
+        //    }
+        //}
+        //else
+        //{
+        //    foreach (var id in partyIDs)
+        //    {
+        //        var p = db.Table<CharacterData>()
+        //            .FirstOrDefault(c => c.id == id && c.faction_id == 1);
+
+        //        if (p != null)
+        //        {
+        //            playerTeam.Add(new CharacterStats(
+        //                p.id, p.faction_id, p.name,
+        //                p.hp, p.atk, p.def, p.spd,
+        //                p.ai_profile_id));
+        //        }
+        //        else
+        //        {
+        //            Debug.LogWarning($"Character id {id} không tìm thấy trong DB!");
+        //        }
+        //    }
+        //}
+
         string dbPath = System.IO.Path.Combine(Application.streamingAssetsPath, "Datagame.db");
         db = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite);
         Debug.Log("Đang mở DB tại: " + dbPath);
 
-        // Player team — giữ nguyên logic của bạn
-        var players = db.Table<CharacterData>().Where(c => c.faction_id == 1).Take(3).ToList();
-        foreach (var p in players)
-            playerTeam.Add(new CharacterStats(p.id, p.faction_id, p.name, p.hp, p.atk, p.def, p.spd, p.ai_profile_id));
+        playerTeam.Clear();
+
+        var partyStats = PartyManager.Instance.PartyStats;
+
+        if (partyStats == null || partyStats.Count == 0)
+        {
+            Debug.LogWarning("Party rỗng → fallback lấy 3 player mặc định");
+
+            var fallback = db.Table<CharacterData>()
+                .Where(c => c.faction_id == 1)
+                .Take(3)
+                .ToList();
+
+            foreach (var p in fallback)
+            {
+                playerTeam.Add(new CharacterStats(
+                    p.id, p.faction_id, p.name,
+                    p.hp, p.atk, p.def, p.spd,
+                    p.ai_profile_id));
+            }
+        }
+        else
+        {
+            playerTeam = new List<CharacterStats>(partyStats);
+
+            Debug.Log("Load player từ PartyManager (giữ equipment)");
+        }
 
         // Enemy team — lấy từ EncounterData
         var carrier = BattleEncounterData.Instance;
@@ -138,6 +205,8 @@ public class BattleManager : MonoBehaviour
 
     void SpawnCharacters()
     {
+        Debug.Log("PartyManager count: " + PartyManager.Instance.PartyStats.Count);
+
         // Player side
         for (int i = 0; i < playerTeam.Count && i < playerSpawnPoints.Length; i++)
         {
@@ -483,8 +552,23 @@ public class BattleManager : MonoBehaviour
         {
             var attacker = currentUnit.stats;
             var target = selectedTarget.stats;
+            Debug.Log("ATTACK BASE: " + attacker.attack);
+            int damage = attacker.GetAttack();
+            if (attacker.weaponID != -1)
+            {
+                ItemEntity weapon =
+                    ItemDatabase.Instance.GetItem(attacker.weaponID);
 
-            int damage = attacker.attack;
+                if (weapon != null)
+                {
+                    Debug.Log(
+                        "WEAPON BONUS: " +
+                        weapon.bonusATK
+                    );
+                }
+            }
+
+            Debug.Log("FINAL ATTACK: " + attacker.GetAttack());
             selectedTarget.TakeDamage(damage);
             AddThreat(attacker, damage);
 
@@ -902,7 +986,7 @@ public class BattleManager : MonoBehaviour
         {
             if (target == null) return;
 
-            int dotDamage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
+            int dotDamage = Mathf.RoundToInt(attacker.GetAttack() * (skill.power / 100f));
 
             target.stats.AddDOT(
               damagePerTurn: dotDamage,
@@ -940,7 +1024,7 @@ public class BattleManager : MonoBehaviour
                         Debug.Log("[UseSkill] Sub-nhánh: Melee > MoveAndAttack");
                         StartCoroutine(MoveAndAttack(currentUnit, targetUnit, () =>
                         {
-                            int damage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
+                            int damage = Mathf.RoundToInt(attacker.GetAttack() * (skill.power / 100f));
                             var target = targetUnit.stats;
                             targetUnit.TakeDamage(damage);
                             BattleManager.Instance.AddThreat(attacker, damage);
@@ -954,7 +1038,7 @@ public class BattleManager : MonoBehaviour
                     else // Ranged
                     {
                         Debug.Log("[UseSkill] Sub-nhánh: Ranged → không di chuyển");
-                        int damage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
+                        int damage = Mathf.RoundToInt(attacker.GetAttack() * (skill.power / 100f));
                         var target = targetUnit.stats;
                         targetUnit.TakeDamage(damage);
                         BattleManager.Instance.AddThreat(attacker, damage);
@@ -973,7 +1057,7 @@ public class BattleManager : MonoBehaviour
                     foreach (var enemy in enemyUnits)
                     {
                         if (enemy.stats.IsDead()) continue;
-                        int damage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
+                        int damage = Mathf.RoundToInt(attacker.GetAttack() * (skill.power / 100f));
                         enemy.TakeDamage(damage);
                         totalDamage += damage;
                         enemyUIItems[enemyTeam.IndexOf(enemy.stats)].UpdateHP();

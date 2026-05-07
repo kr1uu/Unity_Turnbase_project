@@ -9,6 +9,7 @@ public class CharacterSpriteDatabase : ScriptableObject
     {
         public int characterId;
         public Sprite sprite;
+        public Sprite splashArt;
         //public Sprite idleSprite;
         //public Sprite attackSprite;
         //public Sprite hurtSprite;
@@ -42,6 +43,17 @@ public class CharacterSpriteDatabase : ScriptableObject
         }
 
         Debug.LogError("cant find ANIMATOR cho ID = " + id);
+        return null;
+    }
+    public Sprite GetSplashArt(int id)
+    {
+        foreach (var e in entries)
+        {
+            if (e.characterId == id)
+                return e.splashArt;
+        }
+
+        Debug.LogError("Missing splash art ID = " + id);
         return null;
     }
     //public Entry GetEntry(int id)
