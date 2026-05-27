@@ -53,10 +53,11 @@ public class SkillData
         Evade = 11,
 
     }
+    public int status_effect_id { get; set; }
     public SkillType Type => (SkillType)type_id;
 
     public override string ToString()
     {
-        return $"[Skill id={id}, name={name}, type={Type}, targetType={targetType}, rangeType={rangeType}, power={power}, cooldown={cooldown}, curCd={currentCooldown}]";
+        return $"[Skill id={id}, name={name}, type={Type}, targetType={targetType}, rangeType={rangeType}, power={power}, cooldown={cooldown}, curCd={currentCooldown}, statusEffectId={status_effect_id}]";
     }
 }

@@ -20,10 +20,18 @@ MonoBehaviour:
   - skillId: 3
     icon: {fileID: 7967094703251504408, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
   - skillId: 4
-    icon: {fileID: -1788011660995395440, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+    icon: {fileID: 5210265715107915203, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
   - skillId: 9
     icon: {fileID: -635082562774001587, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
   - skillId: 18
     icon: {fileID: -2570562113466220483, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
   - skillId: 10
     icon: {fileID: -6494017530191726570, guid: cfa74734ba285664d88299eb3c460b8f, type: 3}
+  - skillId: 11
+    icon: {fileID: 5889283046493602020, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
+  - skillId: 17
+    icon: {fileID: -4376669816616444367, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
+  - skillId: 16
+    icon: {fileID: 5767872356749513326, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
+  - skillId: 15
+    icon: {fileID: 4902554228207699654, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}

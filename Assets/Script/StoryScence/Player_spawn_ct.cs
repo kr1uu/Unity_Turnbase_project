@@ -33,14 +33,23 @@ public class PlayerSpawnHandler : MonoBehaviour
         if (GameStateManager.Instance != null &&
             GameStateManager.Instance.isLoadingGame)
         {
-            GameData data = SaveSystem.Load();
+            GameData data = SaveSystem.Load(SaveSlotManager.Instance.currentSlotID);
 
-            spawnPos = new Vector3(
-                data.player.posX,
-                data.player.posY,
-                data.player.posZ
-            );
-
+            if (data != null && data.player != null)
+            {
+                spawnPos = new Vector3(
+                    data.player.posX,
+                    data.player.posY,
+                    data.player.posZ
+                );
+            }
+            else
+            {
+                spawnPos =
+                    PlayerSpawnManager
+                    .Instance
+                    .GetSpawnPosition();
+            }
             Debug.Log("?? Spawn from SAVE DATA");
         }
         // Back from Battle Priority
@@ -54,7 +63,18 @@ public class PlayerSpawnHandler : MonoBehaviour
             // back to spwan default
             spawnPos = PlayerSpawnManager.Instance.GetSpawnPosition();
         }
+        Debug.Log("FINAL SPAWN POS = " +spawnPos);
         transform.position = spawnPos;
+
+        Physics2D.SyncTransforms();
+
+        yield return new WaitForEndOfFrame();
+
+        GameStateManager.Instance
+            .isLoadingGame = false;
+
+        Debug.Log("LOAD COMPLETE");
+        UpdateCameraZone();
 
         yield return new WaitForFixedUpdate(); 
 
@@ -68,6 +88,36 @@ public class PlayerSpawnHandler : MonoBehaviour
         if (GameStateManager.Instance != null)
         {
             GameStateManager.Instance.isLoadingGame = false;
+        }
+    }
+    void UpdateCameraZone()
+    {
+        CameraFollow cam =
+            Camera.main.GetComponent<CameraFollow>();
+
+        if (cam == null)
+            return;
+
+        Collider2D hit =
+            Physics2D.OverlapPoint(
+                transform.position,
+                LayerMask.GetMask("CameraZone")
+            );
+
+        if (hit != null)
+        {
+            BoxCollider2D box =
+                hit.GetComponent<BoxCollider2D>();
+
+            if (box != null)
+            {
+                cam.cameraBounds = box;
+                cam.UpdateBounds();
+
+                Debug.Log(
+                    "Camera Zone Updated"
+                );
+            }
         }
     }
 }

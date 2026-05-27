@@ -10,7 +10,15 @@ public class InventoryManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // =====================================================
@@ -121,7 +129,6 @@ public class InventoryManager : MonoBehaviour
 
             case "Weapon":
 
-                // tr? weapon c? v? inventory
                 if (character.weaponID != -1)
                 {
                     AddItem(
@@ -130,7 +137,6 @@ public class InventoryManager : MonoBehaviour
                     );
                 }
 
-                // remove weapon m?i
                 RemoveItem(itemID, 1);
 
                 character.weaponID = itemID;

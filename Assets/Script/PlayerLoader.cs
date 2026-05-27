@@ -15,7 +15,7 @@ public class PlayerLoader : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameData data = SaveSystem.Load();
+        GameData data = SaveSystem.Load(SaveSlotManager.Instance.currentSlotID);
         if (data == null) return;
 
         Vector3 pos = new Vector3(

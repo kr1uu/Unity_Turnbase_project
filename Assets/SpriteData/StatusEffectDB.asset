@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57a8dcbfd34e0b4a9323f0d5dda9e1b, type: 3}
+  m_Name: StatusEffectDB
+  m_EditorClassIdentifier: Assembly-CSharp::StatusIconDatabase
+  icons:
+  - effectType: Poison
+    icon: {fileID: 519652111219641271, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Burn
+    icon: {fileID: -1049673113343489832, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Bleed
+    icon: {fileID: -718284227106075154, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Stun
+    icon: {fileID: -7347617074746929140, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Regen
+    icon: {fileID: -1849018296217651420, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Weak
+    icon: {fileID: -6990801518491663574, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: DefBreak
+    icon: {fileID: 707738436820223475, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Shield
+    icon: {fileID: 3710378873296919796, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Haste
+    icon: {fileID: -859462634285700814, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}
+  - effectType: Fortify
+    icon: {fileID: 7055707658739943183, guid: e8a9c5c9178ce384fa27b61971650a70, type: 3}

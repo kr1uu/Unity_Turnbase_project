@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839f22a1cf67f834c9d70b6e393b1462, type: 3}
+  m_Name: Consumable
+  m_EditorClassIdentifier: Assembly-CSharp::ItemVisual
+  entries:
+  - itemId: 16
+    icon: {fileID: 7704059203647548489, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 17
+    icon: {fileID: 2110327281, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 18
+    icon: {fileID: 848570817, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 19
+    icon: {fileID: 475033886, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 20
+    icon: {fileID: 691325701, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 21
+    icon: {fileID: -1861931664, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 22
+    icon: {fileID: 1575866288, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 23
+    icon: {fileID: 256221414, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 24
+    icon: {fileID: 1227421094, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}
+  - itemId: 25
+    icon: {fileID: -277291891, guid: 7a97557b46035d54db7f167e0a6285a0, type: 3}

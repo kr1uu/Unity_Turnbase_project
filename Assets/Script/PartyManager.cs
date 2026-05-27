@@ -15,7 +15,15 @@ public class PartyManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void ToggleCharacter(int id)
@@ -37,8 +45,12 @@ public class PartyManager : MonoBehaviour
             SelectedPlayerIDs.Add(id);
         }
 
-        BuildPartyFromDB(); // ?? build l?i stats
+        BuildPartyFromDB(); // ?? build lai stats
         OnPartyChanged?.Invoke(); // ?? update UI
+    }
+    public void RefreshParty()
+    {
+        BuildPartyFromDB();
     }
 
     public void BuildPartyFromDB()
@@ -73,6 +85,9 @@ public class PartyManager : MonoBehaviour
                 data.atk,
                 data.def,
                 data.spd,
+                data.baseLevel,
+                data.expReward,
+                data.goldReward,
                 data.ai_profile_id
             );
 

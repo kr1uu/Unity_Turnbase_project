@@ -45,6 +45,8 @@ public class BattleTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (GameStateManager.Instance.isLoadingGame)
+            return;
         if (!collision.CompareTag("Player")) return;
 
         Debug.Log("[BattleTrigger] encounterID = " + encounterID);

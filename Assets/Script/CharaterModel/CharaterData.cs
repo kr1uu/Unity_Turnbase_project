@@ -11,8 +11,9 @@ public class CharacterData
     public int atk { get; set; }
     public int def { get; set; }
     public int spd { get; set; }
-    public int level { get; set; }
-    public int exp { get; set; }
+    public int baseLevel { get; set; }
+    public int expReward { get; set; }
+    public int goldReward { get; set; }
     [Column("ai_profile_id")]
     public int ai_profile_id { get; set; }
 }

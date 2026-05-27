@@ -22,10 +22,24 @@ public class EncounterMarker : MonoBehaviour
 
         if (playerPos.currentChunkID != toChunkID)
         {
-            Debug.Log($"[Chunk Change] {playerPos.currentChunkID} ? {toChunkID}");
+            if (GameStateManager.Instance.isLoadingGame)
+            {
+                playerPos.currentChunkID = toChunkID;
 
-            // reset encounter c?a chunk c?
-            encounterState.ResetChunk(playerPos.currentChunkID);
+                Debug.Log(
+                    "[LOAD GAME] Skip chunk reset"
+                );
+
+                return;
+            }
+
+            Debug.Log(
+                $"[Chunk Change] {playerPos.currentChunkID} -> {toChunkID}"
+            );
+
+            encounterState.ResetChunk(
+                playerPos.currentChunkID
+            );
 
             playerPos.currentChunkID = toChunkID;
         }

@@ -15,6 +15,17 @@ public class CameraFollow : MonoBehaviour
         camHalfWidth = camHalfHeight * Camera.main.aspect;
 
         UpdateBounds();
+
+        if (target == null)
+        {
+            GameObject player =
+                GameObject.FindGameObjectWithTag(
+                    "Player"
+                );
+
+            if (player != null)
+                target = player.transform;
+        }
     }
 
     public void UpdateBounds()

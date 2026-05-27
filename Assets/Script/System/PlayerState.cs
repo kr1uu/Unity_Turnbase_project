@@ -4,8 +4,11 @@ public class PlayerState
 {
     public int characterId;
 
-    public int level;
-    public int exp;
+    public int level = 1;
+
+    public int currentExp = 0;
+
+    public int gold = 0;
 
     public int currentHP;
     public float posX;

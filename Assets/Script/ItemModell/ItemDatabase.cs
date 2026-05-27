@@ -1,7 +1,8 @@
-using UnityEngine;
 using SQLite4Unity3d;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ItemDatabase : MonoBehaviour
     public ItemVisualDatabase visualDB;
 
     private SQLiteConnection db;
+
+    public List<ItemEntity> items = new List<ItemEntity>();
 
     void Awake()
     {
@@ -20,22 +23,21 @@ public class ItemDatabase : MonoBehaviour
             "Datagame.db"
         );
 
-        Debug.Log("ITEM DB PATH: " + dbPath);
-
         db = new SQLiteConnection(
             dbPath,
             SQLiteOpenFlags.ReadWrite
         );
 
-        var allItems =
-            db.Table<ItemEntity>().ToList();
+        items =
+            db.Table<ItemEntity>()
+            .ToList();
 
         Debug.Log(
             "ITEM COUNT = " +
-            allItems.Count
+            items.Count
         );
 
-        foreach (var i in allItems)
+        foreach (var i in items)
         {
             Debug.Log(
                 $"ITEM: {i.id} {i.name}"

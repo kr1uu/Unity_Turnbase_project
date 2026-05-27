@@ -18,6 +18,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+        {
+            movement = Vector2.zero;
+
+            animator.SetBool(
+                "isRunning",
+                false
+            );
+
+            return;
+        }
+
         movement = Vector2.zero;
 
         if (Keyboard.current != null)
@@ -31,20 +43,37 @@ public class PlayerMovement : MonoBehaviour
                 Keyboard.current.wKey.isPressed ? 1 : 0;
         }
 
-        bool isMoving = movement.sqrMagnitude > 0.01f;
-        animator.SetBool("isRunning", isMoving);
+        bool isMoving =
+            movement.sqrMagnitude > 0.01f;
 
-        animator.SetFloat("inputx", movement.x);
-        animator.SetFloat("inputy", movement.y);
+        animator.SetBool(
+            "isRunning",
+            isMoving
+        );
+
+        animator.SetFloat(
+            "inputx",
+            movement.x
+        );
+
+        animator.SetFloat(
+            "inputy",
+            movement.y
+        );
 
         if (isMoving)
         {
-            animator.SetFloat("LastInputX", movement.x);
-            animator.SetFloat("LastInputY", movement.y);
+            animator.SetFloat(
+                "LastInputX",
+                movement.x
+            );
+
+            animator.SetFloat(
+                "LastInputY",
+                movement.y
+            );
         }
     }
-
-
     void FixedUpdate()
     {
         if (!canMove) return;                
@@ -79,6 +108,20 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Wall get impact");
         }
 
+    }
+    public void SetControl(bool value)
+    {
+        canMove = value;
+
+        if (!value)
+        {
+            movement = Vector2.zero;
+
+            animator.SetBool(
+                "isRunning",
+                false
+            );
+        }
     }
     //public void Move(InputAction.CallbackContext context)
     //{

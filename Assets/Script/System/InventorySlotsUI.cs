@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class InventorySlotsUI : MonoBehaviour
+public class InventorySlotsUI :
+    MonoBehaviour,
+    IPointerEnterHandler,
+    IPointerExitHandler
 {
     public Image icon;
     public TMP_Text quantityText;
@@ -11,17 +15,26 @@ public class InventorySlotsUI : MonoBehaviour
 
     private InventoryUI inventoryUI;
 
+    // =====================================================
+    // INIT
+    // =====================================================
+
     public void Init(InventoryUI ui)
     {
         inventoryUI = ui;
+
         Debug.Log("INIT SUCCESS");
     }
+
+    // =====================================================
+    // SETUP
+    // =====================================================
 
     public void Setup(int id, int quantity)
     {
         itemID = id;
 
-        var item =
+        ItemEntity item =
             ItemDatabase.Instance.GetItem(id);
 
         if (item == null)
@@ -39,12 +52,6 @@ public class InventorySlotsUI : MonoBehaviour
             icon.sprite =
                 ItemDatabase.Instance.GetIcon(id);
         }
-        else
-        {
-            Debug.LogError(
-                "Icon Image NULL"
-            );
-        }
 
         // QUANTITY
         if (quantityText != null)
@@ -52,18 +59,16 @@ public class InventorySlotsUI : MonoBehaviour
             quantityText.text =
                 quantity.ToString();
         }
-        else
-        {
-            Debug.LogError(
-                "QuantityText NULL"
-            );
-        }
 
         Debug.Log(
             "Inventory Slot Setup OK: " +
             item.name
         );
     }
+
+    // =====================================================
+    // CLICK
+    // =====================================================
 
     public void OnClick()
     {
@@ -73,11 +78,40 @@ public class InventorySlotsUI : MonoBehaviour
 
         EquipManager.Instance
             .SelectItem(itemID);
+
         if (inventoryUI == null)
         {
-            Debug.LogError("inventoryUI NULL");
+            Debug.LogError(
+                "inventoryUI NULL"
+            );
+
             return;
         }
+
         inventoryUI.OnItemSelected();
+    }
+
+    // =====================================================
+    // TOOLTIP
+    // =====================================================
+
+    public void OnPointerEnter(
+      PointerEventData eventData
+  )
+    {
+        ItemEntity item =
+            ItemDatabase.Instance.GetItem(itemID);
+
+        if (item != null)
+        {
+            ItemTooltipUI.Instance.Show(item);
+        }
+    }
+
+    public void OnPointerExit(
+        PointerEventData eventData
+    )
+    {
+        ItemTooltipUI.Instance.Hide();
     }
 }

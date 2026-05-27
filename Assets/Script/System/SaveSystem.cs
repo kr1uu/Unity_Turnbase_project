@@ -3,28 +3,80 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    static string path = Application.persistentDataPath + "/save.json";
+    // =====================================================
+    // SAVE
+    // =====================================================
 
-    public static void Save(GameData data)
+    public static void Save(
+        GameData data,
+        int slotID
+    )
     {
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(path, json);
+        string json =
+            JsonUtility.ToJson(
+                data,
+                true
+            );
 
-        Debug.Log("? SAVED: " + json);
-        Debug.Log("Save path: " + Application.persistentDataPath);
+        string path =
+            Application.persistentDataPath +
+            "/save_" +
+            slotID +
+            ".json";
+
+        File.WriteAllText(
+            path,
+            json
+        );
+
+        Debug.Log(
+            "SAVE PATH = " + path
+        );
     }
 
-    public static GameData Load()
+    // =====================================================
+    // LOAD
+    // =====================================================
+
+    public static GameData Load(int slotID)
     {
+        string path =
+            Application.persistentDataPath +
+            "/save_" +
+            slotID +
+            ".json";
+
         if (!File.Exists(path))
         {
-            Debug.LogWarning("? No save file");
+            Debug.LogWarning(
+                "SAVE NOT FOUND"
+            );
+
             return null;
         }
 
-        string json = File.ReadAllText(path);
-        Debug.Log("?? LOADED: " + json);
+        string json =
+            File.ReadAllText(path);
 
-        return JsonUtility.FromJson<GameData>(json);
+        return JsonUtility.FromJson<GameData>(
+            json
+        );
+    }
+
+    // =====================================================
+    // CHECK SLOT
+    // =====================================================
+
+    public static bool HasSave(
+        int slotID
+    )
+    {
+        string path =
+            Application.persistentDataPath +
+            "/save_" +
+            slotID +
+            ".json";
+
+        return File.Exists(path);
     }
 }

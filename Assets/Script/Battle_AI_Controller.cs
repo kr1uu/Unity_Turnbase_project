@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static SkillData;
 
@@ -36,10 +37,10 @@ public static class BattleAI
 
     public static float ScoreAOE(List<BattleUnit> targets)
     {
-        int alive = targets.Count(u => !u.stats.IsDead());
-        float avgHpLoss = targets.Where(u => !u.stats.IsDead())
-                                 .Average(u => 1f - u.stats.HPPercent());
-        return (alive / 5f) + avgHpLoss * 0.5f;
+        var living = targets.Where(u => !u.stats.IsDead()).ToList();
+        if (living.Count == 0) return 0f;
+        float avgHpLoss = living.Average(u => 1f - u.stats.HPPercent());
+        return (living.Count / 5f) + avgHpLoss * 0.5f;
     }
 
     public static float ScoreHeal(List<BattleUnit> allies)
@@ -159,7 +160,7 @@ public static class BattleAI
     }
     public static BattleUnit SelectTargetForSkill(
     BattleUnit caster,
-    SkillData skill,
+    RuntimeSkill skill,
     List<BattleUnit> playerUnits,
     List<BattleUnit> enemyUnits,
     Dictionary<int, int> threatTable,
@@ -172,12 +173,10 @@ public static class BattleAI
                 return caster;
 
             case TargetType.Ally:
-              
-                var ally = enemyUnits
-                    .Where(u => !u.stats.IsDead())
-                    .OrderBy(u => u.stats.HPPercent())
-                    .FirstOrDefault();
-                return ally ?? caster;
+                var allyList = caster.isPlayer ? playerUnits : enemyUnits;
+                return allyList.Where(u => !u.stats.IsDead())
+                               .OrderBy(u => u.stats.HPPercent())
+                               .FirstOrDefault() ?? caster;
             case TargetType.Single:
                 return SelectUtilityTarget(caster, playerUnits, threatTable, focusCount);
             case TargetType.AOE:
@@ -189,14 +188,19 @@ public static class BattleAI
     // ================================
     // 4. SKILL SELECTION
     // ================================
-    public static SkillData SelectSkill(
+    public static RuntimeSkill SelectSkill(
         BattleUnit enemyUnit,
         List<BattleUnit> playerUnits,
         List<BattleUnit> enemyUnits
     )
     {
-
-        var availableSkills = enemyUnit.skills.Where(s => s.currentCooldown == 0).ToList();
+        foreach (var s in enemyUnit.runtimeSkills)
+        {
+            Debug.Log(
+                $"{s.name} | cd={s.currentCooldown}"
+            );
+        }
+        var availableSkills = enemyUnit.runtimeSkills.Where(s => s.currentCooldown == 0).ToList();
         Debug.Log($"[SelectSkill] {enemyUnit.stats.name} có {availableSkills.Count} skill kh? d?ng");
         foreach (var skill in availableSkills)
         {
@@ -205,7 +209,7 @@ public static class BattleAI
         if (availableSkills.Count == 0) return null;
 
         float bestScore = -1f;
-        SkillData bestSkill = null;
+        RuntimeSkill bestSkill = null;
         var util = enemyUnit.utilityProfile;
         foreach (var skill in availableSkills)
         {
@@ -237,7 +241,7 @@ public static class BattleAI
                 case SkillData.SkillType.Heal:
                 case SkillData.SkillType.Cure:
                     hasValidTarget = enemyUnits.Any(u => !u.stats.IsDead());
-                    score = util.healWeight;
+                    score = ScoreHeal(enemyUnits) * util.healWeight;
                     break;
 
                 case SkillData.SkillType.Defense:
@@ -264,10 +268,50 @@ public static class BattleAI
         }
         return bestSkill;
     }
+    private static void ApplyStatusEffect(
+      RuntimeSkill skill,
+      BattleUnit caster,
+      BattleUnit target,
+      BattleUI ui
+  )
+    {
+        if (
+            skill.status_effect_id <= 0 ||
+            target == null ||
+            target.stats.IsDead()
+        )
+        {
+            return;
+        }
+
+        StatusEffect effect =
+            StatusEffectFactory.Create(
+                skill.status_effect_id,
+                caster
+            );
+
+        if (effect == null)
+            return;
+
+        target.AddEffect(effect);
+
+        ui.ShowMessage(
+            target.stats.name +
+            " take " +
+            effect.effectType
+        );
+
+        Debug.Log(
+            "[AI Status] " +
+            target.stats.name +
+            " take effect " +
+            effect.effectType
+        );
+    }
     // ================================
     // 5. Use Skill
     // ================================
-    public static int UseSkill(BattleUnit caster, BattleUnit targetUnit, SkillData skill,
+    public static int UseSkill(BattleUnit caster, BattleUnit targetUnit, RuntimeSkill skill,
                                 List<BattleUnit> playerUnits, List<BattleUnit> enemyUnits,
                                 BattleUI ui, List<UnitUI> playerUIItems, List<UnitUI> enemyUIItems)
     {
@@ -304,6 +348,10 @@ public static class BattleAI
                     int damage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
                     targetUnit.TakeDamage(damage);
 
+                    ApplyStatusEffect(skill, caster, targetUnit, ui);
+
+                    BattleManager.Instance.AddThreat(targetUnit.stats, damage);
+
                     int idx = playerUnits.IndexOf(targetUnit);
                     if (idx >= 0 && idx < playerUIItems.Count)
                         playerUIItems[idx].UpdateHP();
@@ -318,31 +366,48 @@ public static class BattleAI
                         if (opp.stats.IsDead()) continue;
 
                         int damage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
-                        opp.stats.TakeDamage(damage);
+                        //opp.stats.TakeDamage(damage);
+                        opp.TakeDamage(damage);
+
+                        ApplyStatusEffect(skill, caster, opp, ui);
 
                         int idx = playerUnits.IndexOf(opp);
                         if (idx >= 0 && idx < playerUIItems.Count)
                             playerUIItems[idx].UpdateHP();
-
-                        BattleManager.Instance.AddThreat(opp.stats, damage);
+                        BattleManager.Instance.AddThreat(attacker, damage);
                         Debug.Log($"[UseSkill] {attacker.name} AOE gây {damage} sát th??ng lên {opp.stats.name}");
                     }
-                    return 0;
+                    //return 0;
                 }
                 break;
 
             case SkillData.SkillType.Heal:
                 var allyLowHP = enemyUnits.Where(u => !u.stats.IsDead())
-                                          .OrderBy(u => u.stats.currentHP).FirstOrDefault();
+                                          .OrderBy(u => u.stats.currentHP)
+                                          .FirstOrDefault();
+
                 if (allyLowHP != null)
                 {
-                    allyLowHP.stats.currentHP = Mathf.Min(allyLowHP.stats.currentHP + skill.power, allyLowHP.stats.maxHP);
+                    int before = allyLowHP.stats.currentHP;
+
+                    allyLowHP.stats.currentHP = Mathf.Min(
+                        allyLowHP.stats.currentHP + skill.power,
+                        allyLowHP.stats.maxHP
+                    );
+
+                    int actualHeal = allyLowHP.stats.currentHP - before;
+
+                    allyLowHP.ShowHeal(actualHeal);
+
+                    ApplyStatusEffect( skill, caster, allyLowHP, ui);
+
                     int idx = enemyUnits.IndexOf(allyLowHP);
                     if (idx >= 0 && idx < enemyUIItems.Count)
                         enemyUIItems[idx].UpdateHP();
 
-                    ui.ShowMessage($"{attacker.name} heal {skill.power} HP cho {allyLowHP.stats.name}!");
-                    Debug.Log($"[UseSkill] {attacker.name} heal {allyLowHP.stats.name} +{skill.power} HP");
+                    ui.ShowMessage($"{attacker.name} heal {actualHeal} HP cho {allyLowHP.stats.name}!");
+
+                    Debug.Log($"[UseSkill] {attacker.name} heal {allyLowHP.stats.name} +{actualHeal} HP");
                 }
                 break;
 
@@ -350,24 +415,26 @@ public static class BattleAI
                 attacker.isDefending = true;
                 attacker.defenseMultiplier = Mathf.Clamp(1f - (skill.power / 100f), 0.2f, 1f);
                 ui.ShowMessage($"{attacker.name} Defense {skill.power}%!");
-                Debug.Log($"[UseSkill] {attacker.name} b?t phòng th?, gi?m sát th??ng {skill.power}%");
                 break;
 
             case SkillData.SkillType.Buff:
                 attacker.attack += skill.power;
+
+                ApplyStatusEffect( skill, caster, caster, ui);
+
                 ui.ShowMessage($"{attacker.name} ATK+ {skill.power}!");
                 Debug.Log($"[UseSkill] {attacker.name} buff ATK +{skill.power}");
                 break;
 
-            case SkillData.SkillType.DoT:
-                if (targetUnit != null)
-                {
-                    int dotDamage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
-                    targetUnit.stats.AddDOT(dotDamage, turns: 3, source: attacker);
-                    ui.ShowMessage($"{targetUnit.stats.name} b? Poisoned");
-                    Debug.Log($"[UseSkill] {attacker.name} gây DoT {dotDamage} lên {targetUnit.stats.name}");
-                }
-                break;
+            //case SkillData.SkillType.DoT:
+            //    if (targetUnit != null)
+            //    {
+            //        int dotDamage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
+            //        targetUnit.stats.AddDOT(dotDamage, turns: 3, source: attacker);
+            //        ui.ShowMessage($"{targetUnit.stats.name} b? Poisoned");
+            //        Debug.Log($"[UseSkill] {attacker.name} gây DoT {dotDamage} lên {targetUnit.stats.name}");
+            //    }
+            //    break;
         }
         skill.currentCooldown = skill.cooldown;
         Debug.Log($"[UseSkill] {skill.name} vào cooldown {skill.cooldown} turn");

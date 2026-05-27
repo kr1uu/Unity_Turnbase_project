@@ -13,6 +13,11 @@ public class CharacterPanelUI : MonoBehaviour
     [Header("MAIN PANEL")]
     public GameObject panel;
 
+    [Header("PARTY SELECT")]
+    public Transform partyContent;
+
+    public GameObject partyButtonPrefab;
+
     [Header("TEXT")]
     public TMP_Text nameText;
     public TMP_Text atkText;
@@ -71,6 +76,7 @@ public class CharacterPanelUI : MonoBehaviour
         currentCharacter = stats;
 
         Refresh();
+        RefreshPartyBar();
 
         UIManager.Instance.Push(panel);
 
@@ -142,7 +148,6 @@ public class CharacterPanelUI : MonoBehaviour
                 );
             }
         }
-
         // -------------------------
         // EQUIPMENT ICONS
         // -------------------------
@@ -164,7 +169,48 @@ public class CharacterPanelUI : MonoBehaviour
             emptyAccessorySprite
         );
     }
+    void RefreshPartyBar()
+    {
+        if (partyContent == null)
+        {
+            Debug.LogError("partyContent NULL");
+            return;
+        }
 
+        if (partyButtonPrefab == null)
+        {
+            Debug.LogError("partyButtonPrefab NULL");
+            return;
+        }
+
+        foreach (Transform child in partyContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var member in PartyManager.Instance.PartyStats)
+        {
+            GameObject go =
+                Instantiate(
+                    partyButtonPrefab,
+                    partyContent
+                );
+
+            CharacterSwitchBtn ui =
+                go.GetComponent<CharacterSwitchBtn>();
+
+            if (ui == null)
+            {
+                Debug.LogError(
+                    "CharacterSwitchBtn missing on prefab!"
+                );
+
+                continue;
+            }
+
+            ui.Setup(member, this);
+        }
+    }
     // =====================================================
     // SET ICON
     // =====================================================

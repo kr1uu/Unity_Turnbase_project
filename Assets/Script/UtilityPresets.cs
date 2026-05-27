@@ -12,6 +12,7 @@ public static class UtilityPresets
             case 6: return Captain;
             case 7: return Oldgaurd;
             case 8: return Nemesis;
+            case 9: return Healer;
             default: return Balanced;
         }
     }
@@ -97,6 +98,18 @@ public static class UtilityPresets
 
         hpBias = 0.0f,
         threatBias = 3.0f     
+    };
+    public static BattleAI.UtilityProfile Healer = new BattleAI.UtilityProfile
+    {
+        attackWeight = 0.2f,
+        aoeWeight = 0.1f,
+        healWeight = 2.5f,
+        defendWeight = 1.2f,
+        debuffWeight = 0.6f,
+        finisherWeight = 0.0f,
+
+        hpBias = 2.0f,
+        threatBias = 0.3f
     };
 
 }

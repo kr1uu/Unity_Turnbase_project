@@ -19,7 +19,7 @@ public class WinSceneUI : MonoBehaviour
             var saveUI = FindFirstObjectByType<SaveLoadUI>();
             if (saveUI != null)
             {
-                saveUI.SaveGame();
+                saveUI.SaveGame(SaveSlotManager.Instance.currentSlotID);
             }
             else
             {

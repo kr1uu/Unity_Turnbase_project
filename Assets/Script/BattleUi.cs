@@ -90,6 +90,7 @@ public class BattleUI : MonoBehaviour
 
     private void OnArtsPressed()
     {
+        BattleItemManager.Instance.Close();
         var cu = manager.CurrentUnit;
         if (cu == null || !cu.isPlayer)
         {
@@ -230,5 +231,14 @@ public class BattleUI : MonoBehaviour
         skillPanel.SetActive(false);
         if (TooltipManager.Instance != null)
             TooltipManager.Instance.HideTooltip();
+    }
+    public void ResetPanels()
+    {
+        HideArtsList();
+
+        if (BattleItemManager.Instance != null)
+        {
+            BattleItemManager.Instance.Close();
+        }
     }
 }

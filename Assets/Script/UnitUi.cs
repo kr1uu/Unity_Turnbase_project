@@ -10,10 +10,19 @@ public class UnitUI : MonoBehaviour
     [SerializeField] public TextMeshProUGUI rankText;
     private BattleUnit unit;
 
+    public Transform statusIconHolder;
+    public GameObject statusIconPrefab;
+    public StatusIconDatabase statusIconDB;
+
     public void Setup(BattleUnit battleUnit)
     {
         this.unit = battleUnit;
         unit.hpBar = hpBar; // Gán thanh HP cho BattleUnit
+
+        unit.statusIconHolder = statusIconHolder;
+        unit.statusIconPrefab = statusIconPrefab;
+        unit.statusIconDB = statusIconDB;
+
         UpdateHP();         
 
 

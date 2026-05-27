@@ -30,6 +30,12 @@ public class CharacterStats
     public int defense;
     public int speed;
 
+    public int level;
+
+    public int expReward;
+
+    public int goldReward;
+
     public int ai_profile_id;
 
     // =====================================================
@@ -52,6 +58,9 @@ public class CharacterStats
         int atk,
         int def,
         int spd,
+        int level,
+        int expReward,
+        int goldReward,
         int ai_profile_id
     )
     {
@@ -67,6 +76,12 @@ public class CharacterStats
         defense = def;
         speed = spd;
 
+        this.level = level;
+
+        this.expReward = expReward;
+
+        this.goldReward = goldReward;
+
         this.ai_profile_id = ai_profile_id;
     }
 
@@ -76,6 +91,7 @@ public class CharacterStats
 
     public void TakeDamage(int damage)
     {
+
         if (isDefending)
         {
             damage =
@@ -108,89 +124,89 @@ public class CharacterStats
     // DOT SYSTEM
     // =====================================================
 
-    [System.Serializable]
-    public class DOTInstance
-    {
-        public int damagePerTurn;
-        public int remainingTurns;
+    //[System.Serializable]
+    //public class DOTInstance
+    //{
+    //    public int damagePerTurn;
+    //    public int remainingTurns;
 
-        public CharacterStats source;
+    //    public CharacterStats source;
 
-        public DOTInstance(
-            int damage,
-            int turns,
-            CharacterStats source
-        )
-        {
-            damagePerTurn = damage;
-            remainingTurns = turns;
+    //    public DOTInstance(
+    //        int damage,
+    //        int turns,
+    //        CharacterStats source
+    //    )
+    //    {
+    //        damagePerTurn = damage;
+    //        remainingTurns = turns;
 
-            this.source = source;
-        }
-    }
+    //        this.source = source;
+    //    }
+    //}
 
-    [NonSerialized]
-    public List<DOTInstance> dots =
-        new List<DOTInstance>();
+    //[NonSerialized]
+    ////public List<DOTInstance> dots =
+    ////    new List<DOTInstance>();
 
-    public void AddDOT(
-        int damagePerTurn,
-        int turns,
-        CharacterStats source
-    )
-    {
-        dots.Add(
-            new DOTInstance(
-                damagePerTurn,
-                turns,
-                source
-            )
-        );
+    ////public void AddDOT(
+    ////    int damagePerTurn,
+    ////    int turns,
+    ////    CharacterStats source
+    ////)
+    ////{
+    ////    dots.Add(
+    ////        new DOTInstance(
+    ////            damagePerTurn,
+    ////            turns,
+    ////            source
+    ////        )
+    ////    );
 
-        Debug.Log(
-            $"[DOT] AddDOT on {name} | dmg={damagePerTurn} | turns={turns}"
-        );
-    }
+    ////    Debug.Log(
+    ////        $"[DOT] AddDOT on {name} | dmg={damagePerTurn} | turns={turns}"
+    ////    );
+    ////}
 
-    public void ProcessDOT(BattleUnit owner)
-    {
-        for (int i = dots.Count - 1; i >= 0; i--)
-        {
-            var dot = dots[i];
+    //public void ProcessDOT(BattleUnit owner)
+    //{
+    //    for (int i = dots.Count - 1; i >= 0; i--)
+    //    {
+    //        var dot = dots[i];
 
-            int before = currentHP;
+    //        int before = currentHP;
 
-            owner.TakeDamage(
-                dot.damagePerTurn,
-                DamagePopup.PopupType.DOT
-            );
+    //        owner.TakeDamage(
+    //            dot.damagePerTurn,
+    //            DamagePopup.PopupType.DOT
+    //        );
 
-            int actualDamage =
-                before - currentHP;
+    //        int actualDamage =
+    //            before - currentHP;
 
-            if (actualDamage > 0)
-            {
-                Debug.Log(
-                    $"[DOT] {name} take {actualDamage} DOT damage"
-                );
+    //        if (actualDamage > 0)
+    //        {
+    //            Debug.Log(
+    //                $"[DOT] {name} take {actualDamage} DOT damage"
+    //            );
 
-                BattleManager.Instance?.ui?.ShowMessage(
-                    $"{name} take {actualDamage} damage"
-                );
-            }
+    //            BattleManager.Instance?.ui?.ShowMessage(
+    //                $"{name} take {actualDamage} damage"
+    //            );
+    //        }
 
-            dot.remainingTurns--;
+    //        dot.remainingTurns--;
 
-            if (dot.remainingTurns <= 0)
-            {
-                Debug.Log(
-                    $"[DOT] DOT on {name} ended"
-                );
+    //        if (dot.remainingTurns <= 0)
+    //        {
+    //            Debug.Log(
+    //                $"[DOT] DOT on {name} ended"
+    //            );
 
-                dots.RemoveAt(i);
-            }
-        }
-    }
+    //            dots.RemoveAt(i);
+    //        }
+    //    }
+    //}
 
     // =====================================================
     // FINAL STATS

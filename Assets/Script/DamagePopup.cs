@@ -10,6 +10,7 @@ public class DamagePopup : MonoBehaviour
     {
         Normal,
         DOT,
+        Shield,
         Heal
     }
     public void Setup(int amount, PopupType type)
@@ -31,6 +32,10 @@ public class DamagePopup : MonoBehaviour
             case PopupType.Heal:
                 textMesh.color = new Color(0.3f, 1f, 0.3f); // green
                 textMesh.text = "+" + amount;
+                break;
+            case PopupType.Shield:
+                textMesh.color = Color.cyan;
+                textMesh.text = amount.ToString();
                 break;
         }
 
