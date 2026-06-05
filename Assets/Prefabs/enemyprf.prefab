@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+  m_Sprite: {fileID: -199656994248205759, guid: 655a248ce8438f84cbd8e0134396c53c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,6 +107,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnit
   stats:
+    weaponID: 0
+    armorID: 0
+    accessoryID: 0
     id: 0
     faction_id: 0
     name: 
@@ -115,9 +118,15 @@ MonoBehaviour:
     attack: 0
     defense: 0
     speed: 0
+    level: 0
+    expReward: 0
+    goldReward: 0
+    ai_profile_id: 0
     isDefending: 0
     defenseMultiplier: 0
-    ai_profile_id: 0
+  statusIconHolder: {fileID: 0}
+  statusIconPrefab: {fileID: 0}
+  statusIconDB: {fileID: 0}
   aiProfile: 
   utilityProfile:
     attackWeight: 1
@@ -131,6 +140,7 @@ MonoBehaviour:
     controlWeight: 1
   hpBar: {fileID: 0}
   isPlayer: 0
+  enemyID: 0
   normalMat: {fileID: 0}
   highlightMat: {fileID: 0}
   originalPosition: {x: 0, y: 0, z: 0}
@@ -169,17 +179,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.033935547, y: -0.015403748}
+  m_Offset: {x: -0.01171875, y: 0.011047363}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.28, y: 12.32}
+    oldSize: {x: 1.1, y: 1.28}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9.53125, y: 12.662155}
+  m_Size: {x: 1.144043, y: 1.3166504}
   m_EdgeRadius: 0
 --- !u!114 &3748409444393911807
 MonoBehaviour:

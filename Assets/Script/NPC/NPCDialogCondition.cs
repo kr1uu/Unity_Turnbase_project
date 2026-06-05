@@ -7,7 +7,7 @@ public class NPCDialogueCondition
 
     public int npc_id { get; set; }
 
-    public string required_flag { get; set; }
+    public int required_flag { get; set; }
 
     public int required_quest_id { get; set; }
 

@@ -39,7 +39,8 @@ public class BattleEncounterData : MonoBehaviour
             EnemyRanks = ids.ConvertAll(id => new BattleTrigger.EnemyRankEntry
             {
                 enemyID = id,
-                rank = BattleTrigger.EnemyRank.Normal
+                rank = BattleTrigger.EnemyRank.Normal,
+                level = 1
             });
         }
 
@@ -52,5 +53,10 @@ public class BattleEncounterData : MonoBehaviour
     {
         var entry = EnemyRanks.Find(e => e.enemyID == enemyID);
         return entry != null ? entry.rank : BattleTrigger.EnemyRank.Normal;
+    }
+    public int GetLevel(int enemyID)
+    {
+        var entry = EnemyRanks.Find(e => e.enemyID == enemyID);
+        return entry != null ? entry.level : 1;
     }
 }

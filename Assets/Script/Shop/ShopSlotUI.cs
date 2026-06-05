@@ -20,6 +20,8 @@ public class ShopSlotUI : MonoBehaviour
 
     private ItemEntity item;
 
+    private bool purchased = false;
+
     // =====================================================
     // SETUP
     // =====================================================
@@ -94,6 +96,20 @@ public class ShopSlotUI : MonoBehaviour
         buyButton.onClick.AddListener(
             Buy
         );
+
+        if (IsEquipment() &&
+    InventoryManager.Instance.OwnsItem(item.id))
+        {
+            purchased = true;
+
+            buyButton.interactable = false;
+
+            TMP_Text txt =
+                buyButton.GetComponentInChildren<TMP_Text>();
+
+            if (txt != null)
+                txt.text = "Sold";
+        }
     }
 
     // =====================================================
@@ -102,6 +118,9 @@ public class ShopSlotUI : MonoBehaviour
 
     void Buy()
     {
+        if (purchased)
+            return;
+
         int playerGold =
             PlayerProgression
             .Instance
@@ -142,6 +161,24 @@ public class ShopSlotUI : MonoBehaviour
         Debug.Log(
             $"BUY ITEM: {item.name}"
         );
+        if (IsEquipment())
+        {
+            purchased = true;
+
+            buyButton.interactable = false;
+
+            TMP_Text txt =
+                buyButton.GetComponentInChildren<TMP_Text>();
+
+            if (txt != null)
+                txt.text = "Sold";
+        }
+    }
+    bool IsEquipment()
+    {
+        return item.type == "Weapon" ||
+               item.type == "Armor" ||
+               item.type == "Accessory";
     }
 
     // =====================================================

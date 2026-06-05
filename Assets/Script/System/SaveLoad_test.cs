@@ -189,7 +189,7 @@ public class SaveLoadUI : MonoBehaviour
         else
         {
             data.storyFlags =
-                new List<string>();
+                new List<int>();
 
             Debug.LogWarning(
                 "StoryFlagManager NULL"
@@ -383,11 +383,10 @@ public class SaveLoadUI : MonoBehaviour
             QuestLogUI.Instance.Refresh();
         }
 
-        foreach (var flag in data.storyFlags)
-        {
-            StoryFlagManager.Instance
-                .SetFlag(flag);
-        }
+        StoryFlagManager.Instance.LoadFlags
+        (
+            data.storyFlags
+        );
 
         // =====================
         // LOAD PLAYER POSITION

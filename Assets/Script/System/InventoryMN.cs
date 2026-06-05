@@ -76,7 +76,27 @@ public class InventoryManager : MonoBehaviour
             $"REMOVE itemID={itemID} x{amount}"
         );
     }
+    public bool OwnsItem(int itemID)
+    {
+        // Trong inventory
+        if (HasItem(itemID))
+            return true;
 
+        // Trong party ?ang trang b?
+        foreach (var character in PartyManager.Instance.PartyStats)
+        {
+            if (character.weaponID == itemID)
+                return true;
+
+            if (character.armorID == itemID)
+                return true;
+
+            if (character.accessoryID == itemID)
+                return true;
+        }
+
+        return false;
+    }
     // =====================================================
     // HAS ITEM
     // =====================================================

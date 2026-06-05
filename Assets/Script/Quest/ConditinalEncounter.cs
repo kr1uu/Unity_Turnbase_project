@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ConditionalEncounter : MonoBehaviour
 {
-    public string requiredFlag;
+    public int requiredFlag;
 
     void Start()
     {

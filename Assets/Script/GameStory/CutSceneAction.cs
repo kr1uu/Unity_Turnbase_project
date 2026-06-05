@@ -6,7 +6,7 @@ public class CutsceneAction
 {
     public CutsceneActionType type;
 
-    public string targetName;
+    public string targetObjectID;
 
     public Vector3 targetPosition;
 
@@ -14,7 +14,13 @@ public class CutsceneAction
 
     public int dialogueGroupID;
 
-    public string flagToSet;
+    public int flagToSet;
+
+    public int questID;
+
+    public string encounterID;
+
+    public int encounterDatabaseID;
 }
 
 public enum CutsceneActionType
@@ -24,5 +30,8 @@ public enum CutsceneActionType
     Wait,
     SetFlag,
     EnableObject,
-    DisableObject
+    DisableObject,
+    StartQuest,
+    CompleteQuest,
+    StartBattle
 }

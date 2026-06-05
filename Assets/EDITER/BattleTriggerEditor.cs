@@ -16,6 +16,7 @@ public class BattleTriggerEditor : Editor
         public BattleTrigger.EnemyRank rank;
         public int baseHP;
         public int baseATK;
+        public int level = 1 ;
 
         // AI
         public int aiProfileId;
@@ -57,6 +58,11 @@ public class BattleTriggerEditor : Editor
                     opt.selected = trigger.selectedEnemyIDs.Contains(opt.id);
 
                     var rankEntry = trigger.enemyRanks.Find(e => e.enemyID == opt.id);
+                    if (rankEntry != null)
+                    {
+                        opt.rank = rankEntry.rank;
+                        opt.level = rankEntry.level;
+                    }
                     opt.rank = rankEntry != null
                         ? rankEntry.rank
                         : BattleTrigger.EnemyRank.Normal;
@@ -78,29 +84,56 @@ public class BattleTriggerEditor : Editor
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.LabelField("Rank", GUILayout.Width(40));
+
             opt.rank = (BattleTrigger.EnemyRank)
-                EditorGUILayout.EnumPopup(opt.rank, GUILayout.Width(80));
+                EditorGUILayout.EnumPopup(
+                    opt.rank,
+                    GUILayout.Width(100));
 
             EditorGUILayout.LabelField("AI", GUILayout.Width(20));
 
-            int currentIndex = System.Array.IndexOf(aiProfileIds, opt.aiProfileId);
-            int newIndex = EditorGUILayout.Popup(
-                currentIndex < 0 ? 0 : currentIndex,
-                aiProfileNames,
-                GUILayout.Width(120)
-            );
-            opt.aiProfileId = aiProfileIds[newIndex];
+            int currentIndex =
+                System.Array.IndexOf(
+                    aiProfileIds,
+                    opt.aiProfileId);
+
+            int newIndex =
+                EditorGUILayout.Popup(
+                    currentIndex < 0 ? 0 : currentIndex,
+                    aiProfileNames);
+
+            opt.aiProfileId =
+                aiProfileIds[newIndex];
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField(
+                $"Level {opt.level}",
+                GUILayout.Width(70));
+
+            opt.level =
+                EditorGUILayout.IntSlider(
+                    opt.level,
+                    1,
+                    20);
 
             EditorGUILayout.EndHorizontal();
 
 
-            GetPreviewStats(opt.baseHP, opt.baseATK, opt.rank, out var hp, out var atk);
+            GetPreviewStats(opt.baseHP, opt.baseATK, opt.rank, opt.level, out var hp, out var atk);
             EditorGUILayout.LabelField(
                 $" Base HP: {opt.baseHP} to {hp} HP , Base ATK: {opt.baseATK} to {atk} ATK",
                 EditorStyles.miniLabel
             );
+
+            EditorGUILayout.Space();
         }
 
+        if (GUILayout.Button("Open Encounter Editor"))
+        {
+            EncounterEditorWindow.Open((BattleTrigger)target);
+        }
         EditorGUILayout.Space();
 
         if (GUILayout.Button("Update List into BattleTrigger"))
@@ -116,7 +149,8 @@ public class BattleTriggerEditor : Editor
                 .Select(o => new BattleTrigger.EnemyRankEntry
                 {
                     enemyID = o.id,
-                    rank = o.rank
+                    rank = o.rank,
+                    level = o.level
                 })
                 .ToList();
 
@@ -198,6 +232,7 @@ public class BattleTriggerEditor : Editor
         int baseHP,
         int baseATK,
         BattleTrigger.EnemyRank rank,
+        int level,
         out int hp,
         out int atk)
     {

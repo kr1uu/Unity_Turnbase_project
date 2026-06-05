@@ -22,6 +22,8 @@ public class BattleTrigger : MonoBehaviour
     {
         public int enemyID;
         public EnemyRank rank;
+        [Range(1, 20)]
+        public int level = 1;
     }
 
     public EnemyRank GetRank(int enemyID)
@@ -29,6 +31,23 @@ public class BattleTrigger : MonoBehaviour
         var entry = enemyRanks.Find(e => e.enemyID == enemyID);
         return entry != null ? entry.rank : EnemyRank.Normal;
 
+    }
+    private void OnEnable()
+    {
+        if (EncounterRegistry.Instance != null)
+        {
+            EncounterRegistry.Instance
+                .Register(this);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (EncounterRegistry.Instance != null)
+        {
+            EncounterRegistry.Instance
+                .Unregister(this);
+        }
     }
     private void Start()
     {

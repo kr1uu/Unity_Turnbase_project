@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StoryFlagManager : MonoBehaviour
@@ -6,8 +7,8 @@ public class StoryFlagManager : MonoBehaviour
     public static StoryFlagManager Instance;
     public static System.Action<string> OnFlagSet;
 
-    private HashSet<string> flags =
-        new HashSet<string>();
+    private HashSet<int> flags =
+      new HashSet<int>();
 
     void Awake()
     {
@@ -27,17 +28,31 @@ public class StoryFlagManager : MonoBehaviour
     // SET FLAG
     // =========================
 
-    public void SetFlag(string flag)
+    public void SetFlag(int flagID)
     {
-        if (!flags.Contains(flag))
+        if (!flags.Contains(flagID))
         {
-            flags.Add(flag);
+            flags.Add(flagID);
 
-            Debug.Log($"FLAG SET: {flag}");
-            OnFlagSet?.Invoke(flag);
+            Debug.Log($"FLAG SET: {flagID}");
+
+            OnFlagSet?.Invoke(flagID.ToString());
 
             RefreshConditionalObjects();
         }
+    }
+    public void LoadFlags(
+        List<int> loadedFlags
+    )
+    {
+        flags.Clear();
+
+        foreach (var flag in loadedFlags)
+        {
+            flags.Add(flag);
+        }
+
+        RefreshConditionalObjects();
     }
 
     void RefreshConditionalObjects()
@@ -53,29 +68,25 @@ public class StoryFlagManager : MonoBehaviour
     // CHECK FLAG
     // =========================
 
-    public bool HasFlag(string flag)
+    public bool HasFlag(int flagID)
     {
-        return flags.Contains(flag);
+        return flags.Contains(flagID);
     }
-
     // =========================
     // REMOVE FLAG
     // =========================
 
-    public void RemoveFlag(string flag)
+    public void RemoveFlag(int flagID)
     {
-        if (flags.Contains(flag))
-        {
-            flags.Remove(flag);
-        }
+        flags.Remove(flagID);
     }
 
     // =========================
     // GET ALL
     // =========================
 
-    public List<string> GetAllFlags()
+    public List<int> GetAllFlags()
     {
-        return new List<string>(flags);
+        return flags.ToList();
     }
 }

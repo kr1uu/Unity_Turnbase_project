@@ -20,7 +20,7 @@ public class StoryEventTrigger : MonoBehaviour
             return;
 
         // required flag
-        if (!string.IsNullOrEmpty(data.requiredFlag))
+        if (data.requiredFlag > 0)
         {
             if (!StoryFlagManager.Instance
                 .HasFlag(data.requiredFlag))
@@ -45,6 +45,13 @@ public class StoryEventTrigger : MonoBehaviour
 
                 break;
 
+            case EventType.PlayCutscene:
+
+                CutsceneManager.Instance
+                    .Play(data.cutscene);
+
+                break;
+
             case EventType.EnableObject:
 
                 GameObject obj =
@@ -61,7 +68,8 @@ public class StoryEventTrigger : MonoBehaviour
         }
 
         // set flag
-        if (!string.IsNullOrEmpty(data.setFlag))
+        // set flag
+        if (data.setFlag > 0)
         {
             StoryFlagManager.Instance
                 .SetFlag(data.setFlag);

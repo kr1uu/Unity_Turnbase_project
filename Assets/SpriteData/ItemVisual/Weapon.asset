@@ -43,3 +43,39 @@ MonoBehaviour:
     icon: {fileID: -269353383, guid: 8e7e4180ca15e3845aec3da311ab0b49, type: 3}
   - itemId: 15
     icon: {fileID: 1599086194, guid: 8e7e4180ca15e3845aec3da311ab0b49, type: 3}
+  - itemId: 60
+    icon: {fileID: 0}
+  - itemId: 26
+    icon: {fileID: 1729840402284382006, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 27
+    icon: {fileID: -269738983, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 28
+    icon: {fileID: -1620832603, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 29
+    icon: {fileID: -625979733, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 30
+    icon: {fileID: 1798245558, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 31
+    icon: {fileID: -770906278, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 32
+    icon: {fileID: 651910713, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 33
+    icon: {fileID: -778583512, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 34
+    icon: {fileID: -1691594626, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 35
+    icon: {fileID: -447074532, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 36
+    icon: {fileID: -1015828371, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 37
+    icon: {fileID: -217910400, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 38
+    icon: {fileID: -248641403, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 39
+    icon: {fileID: 13574813, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 40
+    icon: {fileID: 1705940388, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 49
+    icon: {fileID: -2056521230, guid: d1fa2db990265694d87774712eed836a, type: 3}
+  - itemId: 50
+    icon: {fileID: -1891733844, guid: d1fa2db990265694d87774712eed836a, type: 3}

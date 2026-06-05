@@ -15,7 +15,7 @@ public class GameData
 
     public List<ChestSaveData> chests = new();
 
-    public List<string> storyFlags = new();
+    public List<int> storyFlags = new();
 
     public List<QuestSaveData> quests = new();
 }

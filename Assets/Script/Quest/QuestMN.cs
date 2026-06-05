@@ -248,7 +248,12 @@ public class QuestManager : MonoBehaviour
                 q.data.reward_item_amount
             );
         }
-
+        if (q.data.story_flag_on_complete > 0)
+        {
+            StoryFlagManager.Instance.SetFlag(
+                q.data.story_flag_on_complete
+            );
+        }
         q.rewarded = true;
         q.state = QuestState.Rewarded;
 

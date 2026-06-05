@@ -5,9 +5,9 @@ public class StoryEventData
 {
     public string eventID;
 
-    public string requiredFlag;
+    public int requiredFlag;
 
-    public string setFlag;
+    public int setFlag;
 
     public bool triggerOnce = true;
 
@@ -20,6 +20,8 @@ public class StoryEventData
     public int questID;
 
     public string targetObjectName;
+
+    public CutsceneData cutscene;
 }
 
 public enum EventType
@@ -28,5 +30,6 @@ public enum EventType
     StartQuest,
     CompleteQuest,
     SpawnObject,
-    EnableObject
+    EnableObject,
+    PlayCutscene
 }

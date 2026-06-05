@@ -67,8 +67,16 @@ public class BattleUnit : MonoBehaviour
         if (sr.sprite == null || boxCol == null)
             return;
 
-        boxCol.size = sr.sprite.bounds.size;
-        boxCol.offset = sr.sprite.bounds.center;
+        Bounds bounds = sr.sprite.bounds;
+
+        Vector3 scale = transform.localScale;
+
+        boxCol.size = new Vector2(
+            bounds.size.x / Mathf.Abs(scale.x),
+            bounds.size.y / Mathf.Abs(scale.y)
+        );
+
+        boxCol.offset = bounds.center;
     }
 
     public void ClearAllEffects()

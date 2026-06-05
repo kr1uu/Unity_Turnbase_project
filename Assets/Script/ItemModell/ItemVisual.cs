@@ -29,12 +29,25 @@ public class ItemVisual : ScriptableObject
         {
             if (e.itemId == id)
             {
+                if (e.icon == null)
+                {
+                    Debug.LogWarning(
+                        "Item ID t?n t?i nh?ng icon NULL: " + id
+                    );
+
+                    return null;
+                }
+
+                Debug.Log(
+                    "Found icon for itemID = " + id
+                );
+
                 return e.icon;
             }
         }
 
         Debug.LogWarning(
-            "Missing icon for itemID = " + id
+            "Không tìm th?y itemID = " + id
         );
 
         return null;

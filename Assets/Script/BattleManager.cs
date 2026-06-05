@@ -213,18 +213,20 @@ public class BattleManager : MonoBehaviour
 
             // 2) Lấy rank từ EncounterData bằng ID
             BattleTrigger.EnemyRank rank = BattleTrigger.EnemyRank.Normal; // default
+            int level = 1;
 
             if (BattleEncounterData.Instance != null)
             {
                 rank = BattleEncounterData.Instance.GetRank(stats.id);
+                level = BattleEncounterData.Instance.GetLevel(stats.id);    
             }
             else
             {
-                Debug.LogWarning("[SpawnCharacters] EncounterData null, dùng rank mặc định Normal");
+                Debug.LogWarning("[SpawnCharacters] EncounterData null, dùng rank mặc định Normal và level 1");
             }
 
             // 3) Áp dụng multiplier theo rank TRƯỚC khi setup unit
-            ApplyRankStats(stats, rank);
+            ApplyEnemyScaling(stats, rank, level);
 
             // 4) Setup BattleUnit với stats đã scale
             var unit = obj.GetComponent<BattleUnit>();
@@ -283,18 +285,53 @@ public class BattleManager : MonoBehaviour
 
     }
     //set rank cho enemy
-    public static void ApplyRankStats(CharacterStats stats, BattleTrigger.EnemyRank rank)
+    public static void ApplyEnemyScaling(
+     CharacterStats stats,
+     BattleTrigger.EnemyRank rank,
+     int level)
     {
+        float levelScale =
+            1f + ((level - 1) * 0.1f);
+
+        stats.maxHP =
+            Mathf.RoundToInt(
+                stats.maxHP *
+                levelScale);
+
+        stats.attack =
+            Mathf.RoundToInt(
+                stats.attack *
+                levelScale);
+
+        stats.defense =
+            Mathf.RoundToInt(
+                stats.defense *
+                levelScale);
+
         switch (rank)
         {
             case BattleTrigger.EnemyRank.Elite:
-                stats.maxHP = Mathf.RoundToInt(stats.maxHP * 1.6f);
-                stats.attack = Mathf.RoundToInt(stats.attack * 1.2f);
+
+                stats.maxHP =
+                    Mathf.RoundToInt(
+                        stats.maxHP * 1.6f);
+
+                stats.attack =
+                    Mathf.RoundToInt(
+                        stats.attack * 1.2f);
+
                 break;
 
             case BattleTrigger.EnemyRank.Boss:
-                stats.maxHP = Mathf.RoundToInt(stats.maxHP * 2.2f);
-                stats.attack = Mathf.RoundToInt(stats.attack * 1.5f);
+
+                stats.maxHP =
+                    Mathf.RoundToInt(
+                        stats.maxHP * 2.2f);
+
+                stats.attack =
+                    Mathf.RoundToInt(
+                        stats.attack * 1.5f);
+
                 break;
         }
 

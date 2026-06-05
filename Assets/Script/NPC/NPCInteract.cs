@@ -283,16 +283,10 @@ public class NPCInteract :
             // FLAG CHECK
             // =====================
 
-            if (
-                !string.IsNullOrEmpty(
-                    c.required_flag
-                )
-            )
+            if (c.required_flag > 0)
             {
-                if (
-                    !StoryFlagManager.Instance
-                    .HasFlag(c.required_flag)
-                )
+                if (!StoryFlagManager.Instance
+                    .HasFlag(c.required_flag))
                 {
                     valid = false;
                 }

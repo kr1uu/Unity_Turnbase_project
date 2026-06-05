@@ -27,4 +27,6 @@ public class QuestData
     public string next_quest_ids { get; set; }
 
     public bool is_main_quest { get; set; }
+
+    public int story_flag_on_complete { get; set; }
 }

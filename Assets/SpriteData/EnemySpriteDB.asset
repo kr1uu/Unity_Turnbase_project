@@ -14,42 +14,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpriteDatabase
   entries:
   - characterId: 6
-    sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    sprite: {fileID: -199656994248205759, guid: 655a248ce8438f84cbd8e0134396c53c, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 7
-    sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    sprite: {fileID: 1064890573813091334, guid: 3e814adf140d60f46bc9c1b019163239, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 8
-    sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    sprite: {fileID: -199656994248205759, guid: 655a248ce8438f84cbd8e0134396c53c, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 9
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 10
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 11
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 12
-    sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    sprite: {fileID: 7380000843635852051, guid: 40640d6c1550c604286e2be9ac86623d, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 13
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 14
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 15
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 16
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 17
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 18
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 19
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 20
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 21
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 22
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 23
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 24
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
   - characterId: 5
     sprite: {fileID: 7543660305947029169, guid: a11de6bae4fe4b44781ba06f90b984bc, type: 3}
+    splashArt: {fileID: 0}
+    animator: {fileID: 0}
