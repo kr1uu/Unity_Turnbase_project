@@ -15,5 +15,5 @@ public class NPCData
     public int shop_id { get; set; }
 
     public int quest_id { get; set; }
-    public int extra_id { get; set; }
+    //public int extra_id { get; set; }
 }

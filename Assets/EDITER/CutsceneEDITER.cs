@@ -27,10 +27,6 @@ public class CutsceneEditorWindow : EditorWindow
         LoadFlags();
     }
 
-    // ==========================================
-    // FLAGS
-    // ==========================================
-
     private void LoadFlags()
     {
         try
@@ -57,10 +53,6 @@ public class CutsceneEditorWindow : EditorWindow
             flags = new();
         }
     }
-
-    // ==========================================
-    // GUI
-    // ==========================================
 
     private void OnGUI()
     {
@@ -94,11 +86,18 @@ public class CutsceneEditorWindow : EditorWindow
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button(
-            "Add Action",
-            GUILayout.Height(30)
-        ))
+        if (
+            GUILayout.Button(
+                "Add Action",
+                GUILayout.Height(30)
+            )
+        )
         {
+            Undo.RecordObject(
+                cutscene,
+                "Add Action"
+            );
+
             cutscene.actions.Add(
                 new CutsceneAction()
             );
@@ -131,10 +130,12 @@ public class CutsceneEditorWindow : EditorWindow
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button(
-            "Save",
-            GUILayout.Height(35)
-        ))
+        if (
+            GUILayout.Button(
+                "Save",
+                GUILayout.Height(35)
+            )
+        )
         {
             EditorUtility.SetDirty(
                 cutscene
@@ -146,11 +147,14 @@ public class CutsceneEditorWindow : EditorWindow
                 $"Saved Cutscene : {cutscene.name}"
             );
         }
-    }
 
-    // ==========================================
-    // DRAW ACTION
-    // ==========================================
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(
+                cutscene
+            );
+        }
+    }
 
     private void DrawAction(
         CutsceneAction action,
@@ -170,13 +174,17 @@ public class CutsceneEditorWindow : EditorWindow
 
         if (
             GUILayout.Button(
-                "?",
+                "^",
                 GUILayout.Width(30)
             )
-            &&
-            index > 0
+            && index > 0
         )
         {
+            Undo.RecordObject(
+                cutscene,
+                "Move Action Up"
+            );
+
             (
                 cutscene.actions[index],
                 cutscene.actions[index - 1]
@@ -190,7 +198,7 @@ public class CutsceneEditorWindow : EditorWindow
 
         if (
             GUILayout.Button(
-                "?",
+                "v",
                 GUILayout.Width(30)
             )
             &&
@@ -198,6 +206,11 @@ public class CutsceneEditorWindow : EditorWindow
             cutscene.actions.Count - 1
         )
         {
+            Undo.RecordObject(
+                cutscene,
+                "Move Action Down"
+            );
+
             (
                 cutscene.actions[index],
                 cutscene.actions[index + 1]
@@ -211,19 +224,44 @@ public class CutsceneEditorWindow : EditorWindow
 
         if (
             GUILayout.Button(
+                "D",
+                GUILayout.Width(30)
+            )
+        )
+        {
+            Undo.RecordObject(
+                cutscene,
+                "Duplicate Action"
+            );
+
+            CutsceneAction clone =
+                JsonUtility.FromJson<CutsceneAction>(
+                    JsonUtility.ToJson(action)
+                );
+
+            cutscene.actions.Insert(
+                index + 1,
+                clone
+            );
+        }
+
+        if (
+            GUILayout.Button(
                 "X",
                 GUILayout.Width(30)
             )
         )
         {
+            Undo.RecordObject(
+                cutscene,
+                "Delete Action"
+            );
+
             cutscene.actions.RemoveAt(
                 index
             );
 
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-
-            return;
+            GUIUtility.ExitGUI();
         }
 
         EditorGUILayout.EndHorizontal();
@@ -237,23 +275,109 @@ public class CutsceneEditorWindow : EditorWindow
                 action.type
             );
 
-        DrawSceneObjectPopup(action);
+        DrawActionFields(action);
 
         EditorGUILayout.EndVertical();
 
         GUILayout.Space(5);
     }
 
-    // ==========================================
-    // ACTION FIELDS
-    // ==========================================
+    private void DrawActionFields(
+        CutsceneAction action
+    )
+    {
+        switch (action.type)
+        {
+            case CutsceneActionType.MoveObject:
+
+                DrawSceneObjectPopup(
+                    action
+                );
+
+                action.targetPosition =
+                    EditorGUILayout.Vector3Field(
+                        "Target Position",
+                        action.targetPosition
+                    );
+
+                action.duration =
+                    EditorGUILayout.FloatField(
+                        "Duration",
+                        action.duration
+                    );
+
+                break;
+
+            case CutsceneActionType.Dialogue:
+
+                action.dialogueGroupID =
+                    EditorGUILayout.IntField(
+                        "Dialogue Group ID",
+                        action.dialogueGroupID
+                    );
+
+                break;
+
+            case CutsceneActionType.Wait:
+
+                action.duration =
+                    EditorGUILayout.FloatField(
+                        "Duration",
+                        action.duration
+                    );
+
+                break;
+
+            case CutsceneActionType.SetFlag:
+
+                action.flagToSet =
+                    DrawFlagPopup(
+                        "Flag",
+                        action.flagToSet
+                    );
+
+                break;
+
+            case CutsceneActionType.EnableObject:
+
+            case CutsceneActionType.DisableObject:
+
+                DrawSceneObjectPopup(
+                    action
+                );
+
+                break;
+
+            case CutsceneActionType.StartQuest:
+
+            case CutsceneActionType.CompleteQuest:
+
+                action.questID =
+                    EditorGUILayout.IntField(
+                        "Quest ID",
+                        action.questID
+                    );
+
+                break;
+
+            case CutsceneActionType.StartBattle:
+
+                DrawEncounterPopup(
+                    action
+                );
+
+                break;
+        }
+    }
 
     private void DrawSceneObjectPopup(
-     CutsceneAction action
- )
+        CutsceneAction action
+    )
     {
         SceneObjectID[] objs =
-            Resources.FindObjectsOfTypeAll<SceneObjectID>()
+            Resources
+            .FindObjectsOfTypeAll<
+                SceneObjectID>()
             .Where(x =>
                 x.gameObject.scene.IsValid() &&
                 !EditorUtility.IsPersistent(x)
@@ -266,11 +390,13 @@ public class CutsceneEditorWindow : EditorWindow
                 "No SceneObjectID found.",
                 MessageType.Warning
             );
+
             return;
         }
 
         string[] ids =
-            objs.Select(x => x.objectID)
+            objs
+            .Select(x => x.objectID)
             .ToArray();
 
         int index =
@@ -292,9 +418,6 @@ public class CutsceneEditorWindow : EditorWindow
         action.targetObjectID =
             ids[index];
     }
-    // ==========================================
-    // FLAG POPUP
-    // ==========================================
 
     private int DrawFlagPopup(
         string label,
@@ -347,23 +470,20 @@ public class CutsceneEditorWindow : EditorWindow
         return flags[index - 1].id;
     }
 
-    // ==========================================
-    // ENCOUNTER POPUP
-    // ==========================================
-
     private void DrawEncounterPopup(
         CutsceneAction action
     )
     {
         BattleTrigger[] triggers =
-            FindObjectsByType<BattleTrigger>(
+            FindObjectsByType<
+                BattleTrigger>(
                 FindObjectsSortMode.None
             );
 
         if (triggers.Length == 0)
         {
             EditorGUILayout.HelpBox(
-                "No BattleTrigger found in scene.",
+                "No BattleTrigger found.",
                 MessageType.Warning
             );
 
@@ -372,7 +492,9 @@ public class CutsceneEditorWindow : EditorWindow
 
         string[] ids =
             triggers
-            .Select(x => x.encounterID)
+            .Select(x =>
+                x.encounterID
+            )
             .ToArray();
 
         int index =

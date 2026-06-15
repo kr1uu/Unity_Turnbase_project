@@ -9,7 +9,8 @@ public class LootChest : MonoBehaviour,IInteractable
 
     public bool opened = false;
 
-    //private bool playerInRange = false;
+    public List<GuaranteedReward> guaranteedRewards = new();
+
     public SpriteRenderer spriteRenderer;
 
     public Sprite closedSprite;
@@ -54,6 +55,19 @@ public class LootChest : MonoBehaviour,IInteractable
         opened = true;
         ChestStateManager.Instance.MarkOpened(chestID);
         RefreshVisual();
+
+        foreach (var reward in guaranteedRewards)
+        {
+            InventoryManager.Instance.AddItem(
+                reward.itemID,
+                reward.amount
+            );
+
+            Debug.Log(
+                $"Guaranteed Item: " +
+                $"{reward.itemID} x{reward.amount}"
+            );
+        }
 
         Debug.Log($"Opening Chest: {chestID}");
 

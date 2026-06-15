@@ -146,21 +146,25 @@ public class CutsceneManager :
             case CutsceneActionType.SetFlag:
 
                 StoryFlagManager.Instance
-                    .SetFlag(
-                        action.flagToSet
-                    );
+                    .SetFlag(action.flagToSet);
+
+                foreach (
+                    var npc in Resources.FindObjectsOfTypeAll<ConditionalNPC>()
+                )
+                {
+                    npc.Refresh();
+                }
 
                 break;
 
             case CutsceneActionType.EnableObject:
 
                 GameObject enableObj =
-                    FindTarget(
-                        action.targetObjectID
-                    );
+                    FindTarget(action.targetObjectID);
 
                 if (enableObj != null)
                 {
+                    Debug.Log($"Enable {enableObj.name}");
                     enableObj.SetActive(true);
                 }
 

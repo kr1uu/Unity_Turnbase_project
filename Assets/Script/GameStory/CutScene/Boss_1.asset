@@ -10,23 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 888a3bbaabc0c204d9f9494376de8d3d, type: 3}
-  m_Name: BilboIntro
+  m_Name: Boss_1
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneData
   actions:
-  - type: 3
-    targetObjectID: 
-    targetPosition: {x: 0, y: 0, z: 0}
-    duration: 0
+  - type: 0
+    targetObjectID: 2
+    targetPosition: {x: -37, y: -13, z: 0}
+    duration: 3
     dialogueGroupID: 0
-    flagToSet: 1
-    questID: 0
-    encounterID: 
-    encounterDatabaseID: 0
-  - type: 1
-    targetObjectID: 1
-    targetPosition: {x: 0, y: 0, z: 0}
-    duration: 0
-    dialogueGroupID: 1300
     flagToSet: 0
     questID: 0
     encounterID: 
