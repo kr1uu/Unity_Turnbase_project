@@ -12,7 +12,7 @@ public class SaveSlotManager : MonoBehaviour
         {
             Instance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

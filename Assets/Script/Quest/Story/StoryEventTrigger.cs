@@ -4,10 +4,15 @@ public class StoryEventTrigger : MonoBehaviour
 {
     public StoryEventData data;
 
+    public bool triggerByCollision = true;
+
     private bool localTriggered = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!triggerByCollision)
+            return;
+
         if (!other.CompareTag("Player"))
             return;
 
@@ -16,17 +21,21 @@ public class StoryEventTrigger : MonoBehaviour
 
     public void TriggerEvent()
     {
-        if (localTriggered)
+        if (localTriggered) return;
+         
+        if (data.completedFlag > 0 && StoryFlagManager.Instance.HasFlag(data.completedFlag))
+        {
             return;
+        }
 
         // required flag
-        if (data.requiredFlag > 0)
+        if (data.requiredFlag > 0 && !StoryFlagManager.Instance.HasFlag(data.requiredFlag))
         {
-            if (!StoryFlagManager.Instance
-                .HasFlag(data.requiredFlag))
-            {
+            //if (!StoryFlagManager.Instance
+            //    .HasFlag(data.requiredFlag))
+            //{
                 return;
-            }
+            //}
         }
 
         switch (data.type)
@@ -66,8 +75,6 @@ public class StoryEventTrigger : MonoBehaviour
 
                 break;
         }
-
-        // set flag
         // set flag
         if (data.setFlag > 0)
         {
@@ -78,6 +85,10 @@ public class StoryEventTrigger : MonoBehaviour
         if (data.triggerOnce)
         {
             localTriggered = true;
+            if (data.completedFlag > 0)
+            {
+                StoryFlagManager.Instance.SetFlag(data.completedFlag);
+            }
         }
 
         Debug.Log(

@@ -12,7 +12,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    // M? UI
     public void Push(GameObject panel)
     {
         if (uiStack.Count > 0)
@@ -26,7 +25,6 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    // ?ÓNG UI HI?N T?I
     public void Pop()
     {
         if (uiStack.Count == 0) return;

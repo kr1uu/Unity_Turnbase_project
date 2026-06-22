@@ -7,6 +7,7 @@ public class DialogueUI : MonoBehaviour
     public static DialogueUI Instance;
 
     [Header("UI")]
+    private DialogueMode currentMode = DialogueMode.Normal;
     public GameObject panel;
 
     public TMP_Text speakerText;
@@ -27,18 +28,25 @@ public class DialogueUI : MonoBehaviour
 
         panel.SetActive(false);
     }
+    public enum DialogueMode
+    {
+        Normal,
+        Narrator
+    }
 
     // =====================================================
     // SHOW
     // =====================================================
 
-    public void Show(List<DialogueData> dialogueLines,System.Action finishAction = null)
+    public void Show(List<DialogueData> dialogueLines,System.Action finishAction = null, DialogueMode mode = DialogueMode.Normal )
     {
         lines = dialogueLines;
 
         currentIndex = 0;
 
         onFinish = finishAction;
+
+        currentMode = mode;
 
         panel.SetActive(true);
 
@@ -80,7 +88,11 @@ public class DialogueUI : MonoBehaviour
 
         ShowCurrentLine();
     }
-
+    public bool IsNarratorFinished()
+    {
+        return currentIndex >=
+               lines.Count - 1;
+    }
     // =====================================================
     // CLOSE
     // =====================================================

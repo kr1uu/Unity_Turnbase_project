@@ -7,8 +7,8 @@ public class SkillIconDatabase : ScriptableObject
     [System.Serializable]
     public class Entry
     {
-        public int skillId;   // ID c?a skill
-        public Sprite icon;   // Sprite icon t??ng ?ng
+        public int skillId;
+        public Sprite icon;  
     }
 
     public List<Entry> entries;

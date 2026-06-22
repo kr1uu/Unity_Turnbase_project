@@ -35,3 +35,5 @@ MonoBehaviour:
     icon: {fileID: 5767872356749513326, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
   - skillId: 15
     icon: {fileID: 4902554228207699654, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}
+  - skillId: 5
+    icon: {fileID: 3533738530251084454, guid: 5af30bfdd34afd44baca779c29417a53, type: 3}

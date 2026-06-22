@@ -144,7 +144,7 @@ MonoBehaviour:
   normalMat: {fileID: 0}
   highlightMat: {fileID: 0}
   originalPosition: {x: 0, y: 0, z: 0}
-  spriteDB: {fileID: 0}
+  spriteDB: {fileID: 11400000, guid: 877e7c8a5c8573f4286bd245e206a5eb, type: 2}
 --- !u!61 &-7512160024561788655
 BoxCollider2D:
   m_ObjectHideFlags: 0

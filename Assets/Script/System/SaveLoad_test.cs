@@ -16,7 +16,7 @@ public class SaveLoadUI : MonoBehaviour
         {
             Instance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

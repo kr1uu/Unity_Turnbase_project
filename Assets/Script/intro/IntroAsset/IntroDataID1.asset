@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1040ebe75fb274590a4fe77ed3d360, type: 3}
+  m_Name: IntroDataID1
+  m_EditorClassIdentifier: Assembly-CSharp::IntroData
+  starterID: 1
+  introName: Startfromnone
+  pages:
+  - images:
+    - sprite: {fileID: 4318659076618422792, guid: 5cbcddee10b85104fb346dc8dd51d2d2, type: 3}
+      dialogueGroupID: 11111
+      delay: 0
+    - sprite: {fileID: -766183797560663799, guid: d439a100f716f4547a1b87c08ab45545, type: 3}
+      dialogueGroupID: 11112
+      delay: 0
+    - sprite: {fileID: 4481400993368454447, guid: b71b764a20c08ff4d811bb52ad584093, type: 3}
+      dialogueGroupID: 11113
+      delay: 0
+    - sprite: {fileID: -2917508333093723494, guid: 8decad740a16c554daf1bfc4190630d3, type: 3}
+      dialogueGroupID: 11114
+      delay: 0

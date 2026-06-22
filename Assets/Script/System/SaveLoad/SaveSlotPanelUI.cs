@@ -4,6 +4,8 @@ public class SaveSlotPanelUI : MonoBehaviour
 {
     public static SaveSlotPanelUI Instance;
 
+    public SavePanelMode currentMode = SavePanelMode.Normal;
+
     [Header("UI")]
     public GameObject panel;
 
@@ -24,13 +26,28 @@ public class SaveSlotPanelUI : MonoBehaviour
 
         panel.SetActive(false);
     }
-
+    public enum SavePanelMode
+    {
+        Normal,
+        MainMenu
+    }
     // =====================================================
     // OPEN
     // =====================================================
 
     public void Open()
     {
+        currentMode = SavePanelMode.Normal;
+
+        panel.SetActive(true);
+
+        RefreshSlots();
+    }
+    public void OpenFromMainMenu()
+    {
+        currentMode =
+            SavePanelMode.MainMenu;
+
         panel.SetActive(true);
 
         RefreshSlots();
@@ -44,7 +61,11 @@ public class SaveSlotPanelUI : MonoBehaviour
     {
         panel.SetActive(false);
     }
-
+    public void OpenSavePanel()
+    {
+        SaveSlotPanelUI.Instance
+            .Open();
+    }
     // =====================================================
     // REFRESH
     // =====================================================
@@ -70,7 +91,7 @@ public class SaveSlotPanelUI : MonoBehaviour
             SaveSlotUI ui =
                 go.GetComponent<SaveSlotUI>();
 
-            ui.Setup(i, data);
+            ui.Setup(i, data, currentMode);
         }
     }
 }

@@ -734,6 +734,8 @@ MonoBehaviour:
   goldText: {fileID: 3562356632778944021}
   sceneText: {fileID: 6554279416463874561}
   saveTimeText: {fileID: 4594967557226897498}
+  saveButton: {fileID: 2517376903485815493}
+  loadButton: {fileID: 203108156459901708}
 --- !u!1 &7931695684498570611
 GameObject:
   m_ObjectHideFlags: 0

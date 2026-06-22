@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 888a3bbaabc0c204d9f9494376de8d3d, type: 3}
-  m_Name: Boss_1
+  m_Name: stage2
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneData
   actions:
   - type: 0
-    targetObjectID: 2
-    targetPosition: {x: -37, y: -13, z: 0}
+    targetObjectID: 3
+    targetPosition: {x: -32, y: -14, z: 0}
     duration: 3
     dialogueGroupID: 0
     flagToSet: 0

@@ -23,7 +23,7 @@ public class QuestManager : MonoBehaviour
         {
             Instance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

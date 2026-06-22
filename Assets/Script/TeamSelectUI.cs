@@ -32,11 +32,18 @@ public class TeamSelectUI : MonoBehaviour
         var characters = db.Query<CharacterData>(
             "SELECT * FROM Characters WHERE faction_id = 1"
         );
+        var unlocked =
+        PlayerProgression.Instance
+            .player
+            .unlockedCharacters;
 
         Debug.Log("Loaded characters: " + characters.Count);
 
         foreach (var c in characters)
         {
+            if (!unlocked.Contains(c.id))
+                continue;
+
             GameObject go = Instantiate(slotPrefab, content);
 
             var ui = go.GetComponent<CharacterSlotUI>();

@@ -22,6 +22,8 @@ public class StoryEventData
     public string targetObjectName;
 
     public CutsceneData cutscene;
+
+    public int completedFlag;
 }
 
 public enum EventType

@@ -13,11 +13,10 @@ public class SceneFader : MonoBehaviour
 
     void Awake()
     {
-        // ??m b?o ch? có m?t SceneFader t?n t?i
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // gi? l?i khi load scene m?i
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -54,7 +53,7 @@ public class SceneFader : MonoBehaviour
                 alpha = 1;
                 isFadingOut = false;
                 SceneManager.LoadScene(nextScene);
-                isFadingIn = true; // khi scene m?i load thì fade in
+                isFadingIn = true; 
             }
         }
     }

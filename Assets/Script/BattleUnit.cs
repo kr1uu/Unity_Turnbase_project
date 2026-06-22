@@ -190,13 +190,11 @@ public class BattleUnit : MonoBehaviour
     }
     void ApplyVisualById(int id)
     {
-        if (spriteDB == null)
-        {
-            Debug.LogError("aint'n have CharacterSpriteDatabase!");
-            return;
-        }
+        Debug.Log(
+       $"ApplyVisualById {name} | spriteDB={(spriteDB == null ? "NULL" : spriteDB.name)}" );
 
         var sp = spriteDB.GetSpriteById(id);
+        Debug.Log( $"Sprite found = {(sp == null ? "NULL" : sp.name)}");
         if (sp != null)
         {
             sr.sprite = sp;

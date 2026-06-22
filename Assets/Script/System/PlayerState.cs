@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class PlayerState
@@ -14,4 +15,7 @@ public class PlayerState
     public float posX;
     public float posY;
     public float posZ;
+
+    public List<int> unlockedCharacters =
+    new List<int>();
 }

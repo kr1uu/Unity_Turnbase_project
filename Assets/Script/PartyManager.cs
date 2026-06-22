@@ -18,7 +18,7 @@ public class PartyManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -51,6 +51,10 @@ public class PartyManager : MonoBehaviour
     public void RefreshParty()
     {
         BuildPartyFromDB();
+    }
+    public void NotifyPartyChanged()
+    {
+        OnPartyChanged?.Invoke();
     }
 
     public void BuildPartyFromDB()

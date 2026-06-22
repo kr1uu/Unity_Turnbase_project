@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1040ebe75fb274590a4fe77ed3d360, type: 3}
+  m_Name: IntroDataID2
+  m_EditorClassIdentifier: Assembly-CSharp::IntroData
+  starterID: 2
+  introName: 'Herbal physician '
+  pages:
+  - images:
+    - sprite: {fileID: -3809102160388741312, guid: 43490634d5d04d94da49266624e1679a, type: 3}
+      dialogueGroupID: 22222
+      delay: 0
+    - sprite: {fileID: -3398912250979119891, guid: d808644a9d6c1844fa972ef42310d276, type: 3}
+      dialogueGroupID: 22223
+      delay: 0
+    - sprite: {fileID: -5668297901379188466, guid: 67ef6839d0c931d47b4e1a7af08120bf, type: 3}
+      dialogueGroupID: 22224
+      delay: 0
+    - sprite: {fileID: 2118447814703522120, guid: eac0021537099f24ebda263a3cb38604, type: 3}
+      dialogueGroupID: 22225
+      delay: 0

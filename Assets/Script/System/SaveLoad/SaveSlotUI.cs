@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static SaveSlotPanelUI;
 
 public class SaveSlotUI : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class SaveSlotUI : MonoBehaviour
     public TMP_Text sceneText;
     public TMP_Text saveTimeText;
 
+    public GameObject saveButton;
+    public GameObject loadButton;
     private int slotID;
+    private SavePanelMode mode;
 
     // =====================================================
     // SETUP
@@ -17,10 +21,12 @@ public class SaveSlotUI : MonoBehaviour
 
     public void Setup(
         int id,
-        GameData data
+        GameData data,
+        SavePanelMode panelMode
     )
     {
         slotID = id;
+        mode = panelMode;
 
         slotNameText.text =
             $"Slot {id}";
@@ -52,6 +58,17 @@ public class SaveSlotUI : MonoBehaviour
         saveTimeText.text =
             System.DateTime.Now
             .ToString();
+
+        if (mode == SavePanelMode.MainMenu)
+        {
+            saveButton.SetActive(false);
+            loadButton.SetActive(true);
+        }
+        else
+        {
+            saveButton.SetActive(true);
+            loadButton.SetActive(true);
+        }
     }
 
     // =====================================================
@@ -60,10 +77,8 @@ public class SaveSlotUI : MonoBehaviour
 
     public void OnSaveClick()
     {
-        SaveLoadUI.Instance
-            .SaveGame(slotID);
-        SaveSlotPanelUI.Instance
-       .RefreshSlots();
+        SaveLoadUI.Instance.SaveGame(slotID);
+        SaveSlotPanelUI.Instance.RefreshSlots();
     }
 
     // =====================================================

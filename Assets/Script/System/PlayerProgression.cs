@@ -12,7 +12,7 @@ public class PlayerProgression : MonoBehaviour
         {
             Instance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -60,6 +60,8 @@ public class PlayerProgression : MonoBehaviour
     void LevelUp()
     {
         player.level++;
+
+        UnlockManager.Instance.CheckUnlocks();
 
         Debug.Log(
             $"LEVEL UP -> {player.level}"

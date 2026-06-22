@@ -12,6 +12,8 @@ public class NPCInteract :
 
     private NPCData npcData;
 
+    public StoryEventTrigger storyEventAfterDialogue;
+
     // =====================================================
     // START
     // =====================================================
@@ -44,8 +46,9 @@ public class NPCInteract :
      System.Action onFinish = null
  )
     {
-            int groupID = ResolveDialogueGroup();
-             var lines =
+        int groupID = ResolveDialogueGroup();
+
+        var lines =
             db.Table<DialogueData>()
             .Where(
                 x => x.group_id == groupID
@@ -54,8 +57,19 @@ public class NPCInteract :
                 x => x.line_order
             )
             .ToList();
-        DialogueUI.Instance
-            .Show(lines, onFinish);
+
+        DialogueUI.Instance.Show(
+            lines,
+            () =>
+            {
+                onFinish?.Invoke();
+
+                if (storyEventAfterDialogue != null)
+                {
+                    storyEventAfterDialogue.TriggerEvent();
+                }
+            }
+        );
     }
 
     // =====================================================

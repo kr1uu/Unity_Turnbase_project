@@ -83,18 +83,40 @@ public class BattleManager : MonoBehaviour
         {
             Debug.LogWarning("Party rỗng → fallback lấy 3 player mặc định");
 
-            var fallback = db.Table<CharacterData>()
-                .Where(c => c.faction_id == 1)
-                .Take(3)
-                .ToList();
+            var unlocked = PlayerProgression.Instance.player.unlockedCharacters;
 
-            foreach (var p in fallback)
+            foreach (var id in unlocked.Take(3))
             {
-                playerTeam.Add(new CharacterStats(
-                    p.id, p.faction_id, p.name,
-                    p.hp, p.atk, p.def, p.spd, p.baseLevel, p.expReward, p.goldReward,
-                    p.ai_profile_id));
+                var p = db.Find<CharacterData>(id);
+
+                if (p == null)
+                {
+                    Debug.LogWarning(
+                        $"Character {id} không tồn tại trong DB"
+                    );
+                    continue;
+                }
+
+                playerTeam.Add(
+                    new CharacterStats(
+                        p.id,
+                        p.faction_id,
+                        p.name,
+                        p.hp,
+                        p.atk,
+                        p.def,
+                        p.spd,
+                        p.baseLevel,
+                        p.expReward,
+                        p.goldReward,
+                        p.ai_profile_id
+                    )
+                );
             }
+
+            Debug.Log(
+                $"Fallback team count = {playerTeam.Count}"
+            );
         }
         else
         {
@@ -208,6 +230,11 @@ public class BattleManager : MonoBehaviour
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
 
+            SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.flipX = true;
+            }
             // 1) Lấy stats gốc từ danh sách enemyTeam
             var stats = enemyTeam[i]; // đây là CharacterStats
 
