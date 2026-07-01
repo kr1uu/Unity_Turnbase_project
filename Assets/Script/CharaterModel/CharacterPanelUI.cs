@@ -79,13 +79,16 @@ public class CharacterPanelUI : MonoBehaviour
         RefreshPartyBar();
 
         UIManager.Instance.Push(panel);
-
-        Debug.Log(
-            "OPEN CHARACTER PANEL: " +
-            stats.name
-        );
     }
+    public void ChangeCharacter(CharacterStats stats)
+    {
+        if (stats == null)
+            return;
 
+        currentCharacter = stats;
+
+        Refresh();
+    }
     // =====================================================
     // REFRESH UI
     // =====================================================

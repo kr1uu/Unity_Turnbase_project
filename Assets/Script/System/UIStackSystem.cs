@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
 
     public void Push(GameObject panel)
     {
+        if (uiStack.Contains(panel))
+            return;
+
         if (uiStack.Count > 0)
         {
             uiStack.Peek().SetActive(false);

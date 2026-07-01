@@ -26,16 +26,16 @@ public class InventoryUI : MonoBehaviour
 
     void Refresh()
     {
-        // Xóa slot c?
+        // Xoa slot cu
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);
         }
 
-        // Spawn slot m?i
+        // Spawn slot moi
         foreach (var slot in InventoryManager.Instance.items)
         {
-            // L?y item t? DB
+            // Lay item tu DB
             var itemData = ItemDatabase.Instance.GetItem(slot.itemID);
 
             if (itemData == null)

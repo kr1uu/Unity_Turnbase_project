@@ -759,17 +759,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: PLAY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 993dd9425fb5080408b42816a02ee690, type: 2}
+  m_sharedMaterial: {fileID: 9104531343141850882, guid: 993dd9425fb5080408b42816a02ee690, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -792,7 +792,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1021,6 +1021,7 @@ GameObject:
   - component: {fileID: 1456524939}
   - component: {fileID: 1456524938}
   - component: {fileID: 1456524937}
+  - component: {fileID: 1456524941}
   m_Layer: 5
   m_Name: Playbtn
   m_TagString: Untagged
@@ -1104,8 +1105,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -6887339313552610002, guid: 34598ea830461bc478c5ecf264b6327d, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1142,6 +1143,25 @@ RectTransform:
   m_AnchoredPosition: {x: 449, y: -215}
   m_SizeDelta: {x: 206.7365, y: 68.7245}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1456524941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456524936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9236de3d7c06e51489bb35abefb36248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuButtonEffect
+  target: {fileID: 1456524940}
+  buttonText: {fileID: 1189674540}
+  normalScale: 1
+  hoverScale: 1.2
+  speed: 8
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.9924528, g: 0.8538421, b: 0, a: 1}
 --- !u!1 &1475881331
 GameObject:
   m_ObjectHideFlags: 0

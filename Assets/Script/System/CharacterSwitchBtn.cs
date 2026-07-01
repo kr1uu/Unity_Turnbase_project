@@ -12,24 +12,21 @@ public class CharacterSwitchBtn : MonoBehaviour
 
     private CharacterPanelUI panel;
 
-    public void Setup(
-        CharacterStats s,
-        CharacterPanelUI p
-    )
+    public void Setup(CharacterStats s, CharacterPanelUI p)
     {
         stats = s;
-
         panel = p;
 
         nameText.text = s.name;
 
-        GetComponent<Button>()
-            .onClick
-            .AddListener(OnClick);
+        Button btn = GetComponent<Button>();
+
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(OnClick);
     }
 
     void OnClick()
     {
-        panel.Open(stats);
+        panel.ChangeCharacter(stats);
     }
 }

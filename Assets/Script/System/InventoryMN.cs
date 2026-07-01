@@ -48,6 +48,7 @@ public class InventoryManager : MonoBehaviour
         Debug.Log(
             $"ADD itemID={itemID} x{amount}"
         );
+        NotificationManager.Instance.ShowItem(itemID, amount);
     }
 
     // =====================================================
@@ -82,7 +83,7 @@ public class InventoryManager : MonoBehaviour
         if (HasItem(itemID))
             return true;
 
-        // Trong party ?ang trang b?
+        // Trong party dang trang bi
         foreach (var character in PartyManager.Instance.PartyStats)
         {
             if (character.weaponID == itemID)

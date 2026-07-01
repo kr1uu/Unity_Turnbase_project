@@ -73,7 +73,7 @@ public static class BattleAI
     {
 
         var alive = players.Where(p => !p.stats.IsDead()).ToList();
-        Debug.Log($"[SelectUtilityTarget] S? player còn s?ng: {alive.Count}");
+        Debug.Log($"[SelectUtilityTarget] So player con song: {alive.Count}");
         if (alive.Count == 0) return null;
 
         var util = enemyUnit.utilityProfile;
@@ -134,14 +134,16 @@ public static class BattleAI
                 noise
             ) * focusPenalty;
             Debug.Log(
-                    $"[AI DEBUG] Target: {p.stats.name} | " +
-                    $"HP%: {p.stats.HPPercent():0.00} | " +
-                    $"HPScore: {hpScore:0.00} | " +
-                    $"ThreatRaw: {threatRaw:0.00} | ThreatScore: {threatScore:0.00} | " +
-                    $"Finisher: {finisher:0.00} | Noise: {noise:0.00} | " +
-                    $"Focus: {fc} | Penalty: {focusPenalty:0.00} | " +
-                    $"FINAL: {finalScore:0.000}"
-                );
+                        $"[AI TARGET SCORE] " +
+                        $"{p.stats.name} | " +
+                        $"HP={stats.currentHP}/{stats.maxHP} ({stats.HPPercent():0.00}) | " +
+                        $"HPScore={hpScore:0.00} | " +
+                        $"Threat={threatScore:0.00} | " +
+                        $"FocusPenalty={focusPenalty:0.00} | " +
+                        $"Finisher={finisher:0.00} | " +
+                        $"Noise={noise:0.00} | " +
+                        $"FINAL={finalScore:0.000}"
+                    );
             if (finalScore > bestScore)
             {
                 bestScore = finalScore;
@@ -150,7 +152,7 @@ public static class BattleAI
         }
         if (best != null)
         {
-            Debug.Log($"[SelectUtilityTarget] ? Ch?n target: {best.stats.name} v?i score {bestScore:0.000}");
+            Debug.Log($"[SelectUtilityTarget] chon target: {best.stats.name} voi score {bestScore:0.000}");
         }
         else
         {
@@ -201,7 +203,7 @@ public static class BattleAI
             );
         }
         var availableSkills = enemyUnit.runtimeSkills.Where(s => s.currentCooldown == 0).ToList();
-        Debug.Log($"[SelectSkill] {enemyUnit.stats.name} có {availableSkills.Count} skill kh? d?ng");
+        Debug.Log($"[SelectSkill] {enemyUnit.stats.name} có {availableSkills.Count} skill kha dung");
         foreach (var skill in availableSkills)
         {
             Debug.Log($"[SelectSkill] Skill {skill.name} | CD={skill.currentCooldown} | targetType={skill.targetType}");
@@ -254,7 +256,7 @@ public static class BattleAI
 
             if (!hasValidTarget)
             {
-                Debug.Log($"[SelectSkill] B? qua skill {skill.name} vì không có target h?p l?");
+                Debug.Log($"[SelectSkill] skip skill {skill.name} vì không có target hop le");
                 continue;
             }
 
@@ -262,11 +264,31 @@ public static class BattleAI
 
             if (score > bestScore)
             {
+                Debug.Log(
+                    $"[AI SKILL SCORE] {enemyUnit.stats.name} | " +
+                    $"Skill={skill.name} | " +
+                    $"Type={skill.Type} | " +
+                    $"Target={skill.targetType} | " +
+                    $"Utility={score:0.000}"
+                );
                 bestScore = score;
                 bestSkill = skill;
             }
         }
+        if (bestSkill != null)
+        {
+            Debug.Log(
+                $"[AI CHOOSE SKILL] {enemyUnit.stats.name} -> " +
+                $"{bestSkill.name} " +
+                $"(Utility={bestScore:0.000})"
+            );
+        }
+        else
+        {
+            Debug.LogWarning($"[AI CHOOSE SKILL] {enemyUnit.stats.name} cant choose any skill");
+        }
         return bestSkill;
+
     }
     private static void ApplyStatusEffect(
       RuntimeSkill skill,
@@ -320,12 +342,12 @@ public static class BattleAI
 
         if (skill == null)
         {
-            Debug.LogWarning($"[UseSkill] {attacker.name} không có skill kh? d?ng ? fallback ?ánh th??ng");
+            Debug.LogWarning($"[UseSkill] {attacker.name} không có skill kha dung , fallback normal attack");
             if (targetUnit != null && !targetUnit.stats.IsDead())
             {
                 int damage = attacker.attack;
                 targetUnit.TakeDamage(damage);
-                ui.ShowMessage($"{attacker.name} ?ánh th??ng {targetUnit.stats.name} gây {damage} sát th??ng!");
+                ui.ShowMessage($"{attacker.name} narmal attack {targetUnit.stats.name} gây {damage} dame!");
 
                 int idx = playerUnits.IndexOf(targetUnit);
                 if (idx >= 0 && idx < playerUIItems.Count)
@@ -357,7 +379,7 @@ public static class BattleAI
                         playerUIItems[idx].UpdateHP();
 
                     threatGenerated += damage;
-                    Debug.Log($"[UseSkill] {attacker.name} gây {damage} sát th??ng lên {targetUnit.stats.name}");
+                    Debug.Log($"[UseSkill] {attacker.name} gây {damage} dame lên {targetUnit.stats.name}");
                 }
                 else if (skill.targetType == SkillData.TargetType.AOE)
                 {
@@ -375,7 +397,7 @@ public static class BattleAI
                         if (idx >= 0 && idx < playerUIItems.Count)
                             playerUIItems[idx].UpdateHP();
                         BattleManager.Instance.AddThreat(attacker, damage);
-                        Debug.Log($"[UseSkill] {attacker.name} AOE gây {damage} sát th??ng lên {opp.stats.name}");
+                        Debug.Log($"[UseSkill] {attacker.name} AOE gây {damage} dame lên {opp.stats.name}");
                     }
                     //return 0;
                 }
@@ -426,15 +448,6 @@ public static class BattleAI
                 Debug.Log($"[UseSkill] {attacker.name} buff ATK +{skill.power}");
                 break;
 
-            //case SkillData.SkillType.DoT:
-            //    if (targetUnit != null)
-            //    {
-            //        int dotDamage = Mathf.RoundToInt(attacker.attack * (skill.power / 100f));
-            //        targetUnit.stats.AddDOT(dotDamage, turns: 3, source: attacker);
-            //        ui.ShowMessage($"{targetUnit.stats.name} b? Poisoned");
-            //        Debug.Log($"[UseSkill] {attacker.name} gây DoT {dotDamage} lên {targetUnit.stats.name}");
-            //    }
-            //    break;
         }
         skill.currentCooldown = skill.cooldown;
         Debug.Log($"[UseSkill] {skill.name} vào cooldown {skill.cooldown} turn");

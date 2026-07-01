@@ -16,7 +16,7 @@ public class TeamSelectUI : MonoBehaviour
         Debug.Log("TeamSelectUI START");
     }
 
-    void LoadCharacters()
+    public void LoadCharacters()
     {
         Debug.Log("LOAD CHARACTER CALLED FROM: " + gameObject.name);
 
@@ -32,6 +32,12 @@ public class TeamSelectUI : MonoBehaviour
         var characters = db.Query<CharacterData>(
             "SELECT * FROM Characters WHERE faction_id = 1"
         );
+        Debug.Log("Character in DB = " + characters.Count);
+
+        foreach (var c in characters)
+        {
+            Debug.Log($"DB Character {c.id} {c.name}");
+        }
         var unlocked =
         PlayerProgression.Instance
             .player
@@ -41,18 +47,16 @@ public class TeamSelectUI : MonoBehaviour
 
         foreach (var c in characters)
         {
+            Debug.Log($"Checking {c.id} - Contains = {unlocked.Contains(c.id)}");
+
             if (!unlocked.Contains(c.id))
                 continue;
+
+            Debug.Log($"Spawn {c.name}");
 
             GameObject go = Instantiate(slotPrefab, content);
 
             var ui = go.GetComponent<CharacterSlotUI>();
-            if (ui == null)
-            {
-                Debug.LogError("CharacterSlotUI missing on prefab!");
-                return;
-            }
-
             ui.Setup(c);
         }
     }
