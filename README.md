@@ -14,19 +14,6 @@
 - NPC & Quest
 - Story Flags
 
-## Screenshots
-
-(ảnh)
-
-## Documentation
-
-- Report.pdf
-- Report.docx
-
-## Installation
-
-## Controls
-
 ## Technologies
 
 - Unity 6
