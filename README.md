@@ -76,24 +76,6 @@ Ngoài hệ thống chiến đấu, dự án còn xây dựng các công cụ (C
 
 - [Báo cáo đồ án (PDF)](docs/PhanVyKiet_6251071050.pdf)
 
----
-
-# Hình ảnh
-
-> Có thể bổ sung các hình ảnh sau:
-
-- Main Menu
-- Story Scene
-- Battle Scene
-- Team Building
-- Inventory
-- Character Panel
-- Quest
-- Shop
-- Utility AI
-- Custom Tool
-
----
 
 # Hướng phát triển
 
